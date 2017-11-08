@@ -6,7 +6,7 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import net.medlinker.archcomp.R;
+import cn.allen.iweather.R;
 import cn.allen.iweather.oberver.MainObserver;
 
 /**

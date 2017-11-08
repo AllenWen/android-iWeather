@@ -2,6 +2,7 @@ package cn.allen.iweather.db.entity;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 /**
  * Author: AllenWen
@@ -11,7 +12,8 @@ import android.arch.persistence.room.PrimaryKey;
  */
 
 @Entity(tableName = "city")
-public class City {
+public class CityEntity {
+    @NonNull
     @PrimaryKey
     public String id;
     public String name_zh;
@@ -23,7 +25,7 @@ public class City {
     public String city_zh;//地级
     public String city_en;
 
-    public City(String id, String name_zh, String name_en, String country_name, String country_code, String province_zh, String province_en, String city_zh, String city_en) {
+    public CityEntity(String id, String name_zh, String name_en, String country_name, String country_code, String province_zh, String province_en, String city_zh, String city_en) {
         this.id = id;
         this.name_zh = name_zh;
         this.name_en = name_en;

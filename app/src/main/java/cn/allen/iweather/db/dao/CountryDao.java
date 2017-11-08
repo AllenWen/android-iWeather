@@ -8,7 +8,7 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
-import cn.allen.iweather.db.entity.Country;
+import cn.allen.iweather.db.entity.CountryEntity;
 
 /**
  * Author: AllenWen
@@ -23,10 +23,10 @@ public interface CountryDao {
     /**
      * 插入国家
      *
-     * @param country
+     * @param countryEntity
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertCountry(Country country);
+    public void insertCountry(CountryEntity countryEntity);
 
     /**
      * 查询所有国家
@@ -34,7 +34,7 @@ public interface CountryDao {
      * @return
      */
     @Query("SELECT * FROM country")
-    public LiveData<List<Country>> loadAllCountries();
+    public LiveData<List<CountryEntity>> loadAllCountries();
 
     /**
      * 根据大洲查询国家
@@ -43,7 +43,7 @@ public interface CountryDao {
      * @return
      */
     @Query("SELECT * FROM country WHERE continent = :continent")
-    public LiveData<List<Country>> loadCountriesByContinent(String continent);
+    public LiveData<List<CountryEntity>> loadCountriesByContinent(String continent);
 
     /**
      * 获取大洲种类

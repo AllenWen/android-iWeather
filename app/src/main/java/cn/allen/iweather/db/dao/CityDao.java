@@ -8,7 +8,7 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
-import cn.allen.iweather.db.entity.City;
+import cn.allen.iweather.db.entity.CityEntity;
 
 /**
  * Author: AllenWen
@@ -23,10 +23,10 @@ public interface CityDao {
     /**
      * 插入城市
      *
-     * @param city
+     * @param cityEntity
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertCity(City city);
+    public void insertCity(CityEntity cityEntity);
 
     /**
      * 查询所有城市
@@ -34,7 +34,7 @@ public interface CityDao {
      * @return
      */
     @Query("SELECT * FROM city")
-    public LiveData<List<City>> loadAllCities();
+    public LiveData<List<CityEntity>> loadAllCities();
 
     /**
      * 根据国家查询城市
@@ -43,7 +43,7 @@ public interface CityDao {
      * @return
      */
     @Query("SELECT * FROM city WHERE country_name = :country_name")
-    public LiveData<List<City>> loadCitiesByCountry(String country_name);
+    public LiveData<List<CityEntity>> loadCitiesByCountry(String country_name);
 
     /**
      * 根据省级行政区查询城市
@@ -52,7 +52,7 @@ public interface CityDao {
      * @return
      */
     @Query("SELECT * FROM city WHERE province_zh = :province_zh")
-    public LiveData<List<City>> loadCitiesByProvince(String province_zh);
+    public LiveData<List<CityEntity>> loadCitiesByProvince(String province_zh);
 
     /**
      * 根据地级行政区查询城市
@@ -61,7 +61,7 @@ public interface CityDao {
      * @return
      */
     @Query("SELECT * FROM city WHERE city_zh = :city_zh")
-    public LiveData<List<City>> loadCitiesByCity(String city_zh);
+    public LiveData<List<CityEntity>> loadCitiesByCity(String city_zh);
 
     /**
      * 获取一个国家的省级行政区
