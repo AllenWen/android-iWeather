@@ -30,6 +30,7 @@ public class Network {
                 .baseUrl(BASE_URL)
                 .client(new OkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(new LiveDataCallAdapterFactory())
                 .build();
     }
 

@@ -8,4 +8,6 @@ package cn.allen.iweather.repository;
  */
 
 public class WeatherRepository {
+
+
 }
