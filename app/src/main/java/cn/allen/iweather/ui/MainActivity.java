@@ -1,4 +1,4 @@
-package cn.allen.iweather.activity;
+package cn.allen.iweather.ui;
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.os.Bundle;
@@ -19,11 +19,10 @@ import cn.allen.iweather.oberver.MainObserver;
 public class MainActivity extends AppCompatActivity implements LifecycleOwner {
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getLifecycle().addObserver(new MainObserver());
+        getLifecycle().addObserver(new MainObserver(this));
     }
-
 
 }

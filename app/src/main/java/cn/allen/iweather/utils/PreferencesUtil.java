@@ -11,14 +11,7 @@ import android.content.SharedPreferences;
  */
 
 public class PreferencesUtil {
-
-    public static String NAME = "iWeather";
-
-    public static final String KEY_IS_READ_DATA = "isReadData";
-
-    public static boolean getBoolean(Context context, String key) {
-        return getBoolean(context, key, false);
-    }
+    private static String NAME = "weather_sp";
 
     public static boolean getBoolean(Context context, String key, boolean defaultValue) {
         SharedPreferences sp = context.getSharedPreferences(NAME, Context.MODE_PRIVATE);

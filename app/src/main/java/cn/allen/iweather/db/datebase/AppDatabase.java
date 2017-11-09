@@ -8,6 +8,7 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
+import cn.allen.iweather.App;
 import cn.allen.iweather.db.dao.CityDao;
 import cn.allen.iweather.db.dao.CountryDao;
 import cn.allen.iweather.db.entity.CityEntity;
@@ -22,18 +23,17 @@ import cn.allen.iweather.db.entity.CountryEntity;
 @Database(entities = {CityEntity.class, CountryEntity.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase Instance;
-    public static final String DATABASE_NAME = "weather_db";
+    private static final String DATABASE_NAME = "weather_db";
 
     public abstract CityDao cityDao();
 
     public abstract CountryDao countryDao();
 
-    public static AppDatabase getInstance(Context context) {
+    public static AppDatabase getInstance() {
         if (Instance == null) {
             synchronized (AppDatabase.class) {
                 if (Instance == null) {
-                    Instance = Room.databaseBuilder(context.getApplicationContext(),
-                            AppDatabase.class, DATABASE_NAME)
+                    Instance = Room.databaseBuilder(App.getApp(), AppDatabase.class, DATABASE_NAME)
                             .build();
                 }
             }

@@ -2,8 +2,6 @@ package cn.allen.iweather;
 
 import android.app.Application;
 
-import cn.allen.iweather.utils.AssetsManager;
-
 /**
  * Author: AllenWen
  * CreateTime: 2017/11/8
@@ -12,20 +10,15 @@ import cn.allen.iweather.utils.AssetsManager;
  */
 
 public class App extends Application {
+    private static App mApp;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        readAssets();
+        mApp = this;
     }
 
-    private void readAssets() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                AssetsManager.getInstance(getApplicationContext()).readExcelToDB();
-            }
-        }).start();
-
+    public static App getApp() {
+        return mApp;
     }
 }

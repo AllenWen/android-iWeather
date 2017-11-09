@@ -25,7 +25,7 @@ public class Network {
         return mNetwork;
     }
 
-    public Network() {
+    private Network() {
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(new OkHttpClient())

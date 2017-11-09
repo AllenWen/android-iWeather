@@ -1,5 +1,10 @@
 package cn.allen.iweather.oberver;
 
+import android.content.Context;
+
+import cn.allen.iweather.repository.SpRepository;
+import cn.allen.iweather.utils.AssetsManager;
+
 /**
  * Author: AllenWen
  * CreateTime: 2017/11/8
@@ -8,15 +13,18 @@ package cn.allen.iweather.oberver;
  */
 
 public class MainObserver implements BaseLifecycleObserver {
+    private Context mContext;
 
+    public MainObserver(Context context) {
+        mContext = context;
+    }
 
     @Override
     public void onCreate() {
-        checkDB();
-    }
-
-    private void checkDB() {
-
+        if (SpRepository.getInstance().hasReadData(mContext)) {
+            return;
+        }
+        AssetsManager.getInstance().readExcelToDB(mContext);
     }
 
     @Override
