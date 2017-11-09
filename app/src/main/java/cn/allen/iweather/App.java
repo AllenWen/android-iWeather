@@ -2,6 +2,8 @@ package cn.allen.iweather;
 
 import android.app.Application;
 
+import cn.allen.iweather.persistence.database.AppDatabase;
+
 /**
  * Author: AllenWen
  * CreateTime: 2017/11/8
@@ -16,9 +18,10 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mApp = this;
+        AppDatabase.init();
     }
 
-    public static App getApp() {
+    public static App getAppContext() {
         return mApp;
     }
 }

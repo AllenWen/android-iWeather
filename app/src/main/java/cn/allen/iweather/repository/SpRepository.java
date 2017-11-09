@@ -12,7 +12,7 @@ import cn.allen.iweather.utils.PreferencesUtil;
  */
 
 public class SpRepository {
-    private static final String KEY_HAS_READ_DATA = "hasReadData";
+    private static final String KEY_HAS_COPY = "hasCopy";
 
     private static SpRepository mInstance;
 
@@ -23,11 +23,11 @@ public class SpRepository {
         return mInstance;
     }
 
-    public boolean hasReadData(Context context) {
-        return PreferencesUtil.getBoolean(context, KEY_HAS_READ_DATA, false);
+    public boolean hasCopyDB(Context context) {
+        return PreferencesUtil.getBoolean(context, KEY_HAS_COPY, false);
     }
 
-    public void setReadData(Context context, boolean hasRead) {
-        PreferencesUtil.putBoolean(context, KEY_HAS_READ_DATA, hasRead);
+    public void setCopyDB(Context context, boolean hasCopy) {
+        PreferencesUtil.putBoolean(context, KEY_HAS_COPY, hasCopy);
     }
 }
