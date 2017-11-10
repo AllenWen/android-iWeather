@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveData;
 import java.lang.reflect.Type;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import cn.allen.iweather.webservice.ApiResponse;
 import retrofit2.Call;
 import retrofit2.CallAdapter;
 import retrofit2.Callback;

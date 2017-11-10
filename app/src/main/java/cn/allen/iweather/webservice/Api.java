@@ -1,5 +1,8 @@
 package cn.allen.iweather.webservice;
 
+import android.arch.lifecycle.LiveData;
+
+import cn.allen.iweather.webservice.entity.WeatherNowEntity;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -16,7 +19,7 @@ public interface Api {
      * 天气实况
      */
     @GET("/weather/now.json")
-    public void now(@Query("key") String key, @Query("location") String location, @Query("language") String language, @Query("unit") String unit);
+    public LiveData<ApiResponse<WeatherNowEntity>> now(@Query("key") String key, @Query("location") String location, @Query("language") String language, @Query("unit") String unit);
 
     /**
      * 逐日天气预报和昨日天气

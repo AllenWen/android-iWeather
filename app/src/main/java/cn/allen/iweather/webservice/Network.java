@@ -28,10 +28,16 @@ public class Network {
     private Network() {
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .client(new OkHttpClient())
+                .client(buildHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(new LiveDataCallAdapterFactory())
                 .build();
+    }
+
+    private OkHttpClient buildHttpClient() {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.addNetworkInterceptor(new HttpLogInterceptor(false));
+        return  builder.build();
     }
 
     public Api getApi() {
