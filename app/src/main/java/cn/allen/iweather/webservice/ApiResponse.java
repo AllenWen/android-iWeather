@@ -5,6 +5,7 @@ import android.util.Log;
 
 import java.io.IOException;
 
+import cn.allen.iweather.webservice.entity.BaseEntity;
 import retrofit2.Response;
 
 /**

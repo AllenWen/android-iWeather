@@ -1,6 +1,9 @@
 package cn.allen.iweather.webservice;
 
+import android.util.Log;
+
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -12,7 +15,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class Network {
-    public static final String BASE_URL = "https://api.seniverse.com/v3";
+    public static final String TAG = Network.class.getSimpleName();
+    public static final String BASE_URL = "https://api.seniverse.com/v3/";
 
     private static Retrofit mRetrofit;
     private static Network mNetwork;
@@ -35,8 +39,19 @@ public class Network {
     }
 
     private OkHttpClient buildHttpClient() {
+        //日志显示级别
+        HttpLoggingInterceptor.Level level= HttpLoggingInterceptor.Level.BODY;
+        //新建log拦截器
+        HttpLoggingInterceptor loggingInterceptor=new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            @Override
+            public void log(String message) {
+                Log.d(TAG,"OkHttp====LOG:"+message);
+            }
+        });
+        loggingInterceptor.setLevel(level);
+        
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.addNetworkInterceptor(new HttpLogInterceptor(false));
+        builder.addNetworkInterceptor(loggingInterceptor);
         return  builder.build();
     }
 

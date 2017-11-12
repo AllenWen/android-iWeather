@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.allen.iweather">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name="cn.allen.iweather.App"
         android:allowBackup="true"
