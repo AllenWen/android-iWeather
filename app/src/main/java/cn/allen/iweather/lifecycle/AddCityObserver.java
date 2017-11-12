@@ -2,9 +2,6 @@ package cn.allen.iweather.lifecycle;
 
 import android.content.Context;
 
-import cn.allen.iweather.repository.WeatherRepository;
-import cn.allen.iweather.utils.Configs;
-
 /**
  * Created by allen on 2017/11/12.
  */

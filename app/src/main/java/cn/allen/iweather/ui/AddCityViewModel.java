@@ -14,13 +14,10 @@ import cn.allen.iweather.webservice.entity.WeatherNowEntity;
 
 public class AddCityViewModel extends ViewModel {
 
-    WeatherRepository weatherRepository;
-
     public AddCityViewModel() {
-        weatherRepository = new WeatherRepository();
     }
 
     public LiveData<ApiResponse<BaseWrapperEntity<WeatherNowEntity>>> now(String key, String location, String language, String unit){
-        return weatherRepository.now(key, location, language, unit);
+        return WeatherRepository.getInstance().now(key, location, language, unit);
     }
 }

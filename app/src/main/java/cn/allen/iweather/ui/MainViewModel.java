@@ -15,14 +15,12 @@ import cn.allen.iweather.repository.CountryRepository;
  */
 
 public class MainViewModel extends ViewModel {
-    CountryRepository mCountryRepository;
 
     public MainViewModel() {
-        mCountryRepository = new CountryRepository();
     }
 
     public LiveData<List<String>> getContinents() {
-        return mCountryRepository.getContinents();
+        return CountryRepository.getInstance().getContinents();
     }
 
 }

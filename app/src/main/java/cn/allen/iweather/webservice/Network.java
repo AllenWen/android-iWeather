@@ -39,18 +39,14 @@ public class Network {
     }
 
     private OkHttpClient buildHttpClient() {
-        //日志显示级别
-        HttpLoggingInterceptor.Level level= HttpLoggingInterceptor.Level.BODY;
-        //新建log拦截器
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
         HttpLoggingInterceptor loggingInterceptor=new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override
             public void log(String message) {
                 Log.d(TAG,"OkHttp====LOG:"+message);
             }
         });
-        loggingInterceptor.setLevel(level);
-        
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);//日志显示级别
         builder.addNetworkInterceptor(loggingInterceptor);
         return  builder.build();
     }

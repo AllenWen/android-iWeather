@@ -16,6 +16,15 @@ import cn.allen.iweather.persistence.entity.CountryEntity;
 
 public class CountryRepository {
 
+    private static CountryRepository mInstance;
+
+    public static CountryRepository getInstance() {
+        if (mInstance == null) {
+            mInstance = new CountryRepository();
+        }
+        return mInstance;
+    }
+
     public void insertCountry(CountryEntity countryEntity) {
         AppDatabase.getInstance().countryDao().insertCountry(countryEntity);
     }

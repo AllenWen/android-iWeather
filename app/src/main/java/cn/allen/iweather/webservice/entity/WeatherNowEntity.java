@@ -53,7 +53,40 @@ public class WeatherNowEntity extends BaseEntity {
                 '}';
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeParcelable(this.location, flags);
+        dest.writeParcelable(this.now, flags);
+        dest.writeString(this.last_update);
+    }
+
+    public WeatherNowEntity() {
+    }
+
+    protected WeatherNowEntity(Parcel in) {
+        super(in);
+        this.location = in.readParcelable(LocationEntity.class.getClassLoader());
+        this.now = in.readParcelable(NowEntity.class.getClassLoader());
+        this.last_update = in.readString();
+    }
+
+    public static final Creator<WeatherNowEntity> CREATOR = new Creator<WeatherNowEntity>() {
+        @Override
+        public WeatherNowEntity createFromParcel(Parcel source) {
+            return new WeatherNowEntity(source);
+        }
+
+        @Override
+        public WeatherNowEntity[] newArray(int size) {
+            return new WeatherNowEntity[size];
+        }
+    };
 
     public class NowEntity implements Parcelable {
         @SerializedName("text")
@@ -261,38 +294,4 @@ public class WeatherNowEntity extends BaseEntity {
         };
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
-        dest.writeParcelable(this.location, flags);
-        dest.writeParcelable(this.now, flags);
-        dest.writeString(this.last_update);
-    }
-
-    public WeatherNowEntity() {
-    }
-
-    protected WeatherNowEntity(Parcel in) {
-        super(in);
-        this.location = in.readParcelable(LocationEntity.class.getClassLoader());
-        this.now = in.readParcelable(NowEntity.class.getClassLoader());
-        this.last_update = in.readString();
-    }
-
-    public static final Creator<WeatherNowEntity> CREATOR = new Creator<WeatherNowEntity>() {
-        @Override
-        public WeatherNowEntity createFromParcel(Parcel source) {
-            return new WeatherNowEntity(source);
-        }
-
-        @Override
-        public WeatherNowEntity[] newArray(int size) {
-            return new WeatherNowEntity[size];
-        }
-    };
 }
