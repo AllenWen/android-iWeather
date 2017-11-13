@@ -16,8 +16,21 @@ import cn.allen.iweather.persistence.entity.CityEntity;
 
 public class CityRepository {
 
+    private static CityRepository mInstance;
+
+    public static CityRepository getInstance() {
+        if (mInstance == null) {
+            mInstance = new CityRepository();
+        }
+        return mInstance;
+    }
+
     public void insertCity(CityEntity cityEntity) {
         AppDatabase.getInstance().cityDao().insertCity(cityEntity);
+    }
+
+    public LiveData<List<CityEntity>> loadCitiesByName(String name) {
+        return AppDatabase.getInstance().cityDao().loadCitiesByName(name);
     }
 
     public LiveData<List<CityEntity>> loadAllCities() {

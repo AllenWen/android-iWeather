@@ -1,18 +1,19 @@
 package cn.allen.iweather.persistence.entity;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 /**
  * Author: AllenWen
- * CreateTime: 2017/11/8
+ * CreateTime: 2017/11/13
  * Email: wenxueguo@medlinker.com
- * Description:
+ * Description:关注的城市
  */
 
-@Entity(tableName = "city")
-public class CityEntity {
+@Entity(tableName = "favorite")
+public class FavoriteEntity {
     @NonNull
     @PrimaryKey
     public String id;
@@ -25,7 +26,7 @@ public class CityEntity {
     public String city_zh;//地级
     public String city_en;
 
-    public CityEntity(String id, String name_zh, String name_en, String country_name, String country_code, String province_zh, String province_en, String city_zh, String city_en) {
+    public FavoriteEntity(String id, String name_zh, String name_en, String country_name, String country_code, String province_zh, String province_en, String city_zh, String city_en) {
         this.id = id;
         this.name_zh = name_zh;
         this.name_en = name_en;
@@ -39,7 +40,7 @@ public class CityEntity {
 
     @Override
     public String toString() {
-        return "CityEntity{" +
+        return "FavoriteEntity{" +
                 "id='" + id + '\'' +
                 ", name_zh='" + name_zh + '\'' +
                 ", name_en='" + name_en + '\'' +

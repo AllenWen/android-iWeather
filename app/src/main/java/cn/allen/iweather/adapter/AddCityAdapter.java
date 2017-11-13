@@ -11,7 +11,6 @@ import java.util.List;
 
 import cn.allen.iweather.R;
 import cn.allen.iweather.persistence.entity.CityEntity;
-import cn.allen.iweather.persistence.entity.FavoriteEntity;
 
 /**
  * Author: AllenWen
@@ -20,17 +19,17 @@ import cn.allen.iweather.persistence.entity.FavoriteEntity;
  * Description:
  */
 
-public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
+public class AddCityAdapter extends RecyclerView.Adapter<AddCityAdapter.AddCityViewHolder> {
     public static final int TYPE_HEADER = 0;  //说明是带有Header的
     public static final int TYPE_FOOTER = 1;  //说明是带有Footer的
     public static final int TYPE_NORMAL = 2;  //说明是不带有header和footer的
 
     private Context mContext;
-    private List<FavoriteEntity> mList;
+    private List<CityEntity> mList;
     private View mHeaderView;
     private View mFooterView;
 
-    public HomeAdapter(Context context, List<FavoriteEntity> list) {
+    public AddCityAdapter(Context context, List<CityEntity> list) {
         mContext = context;
         mList = list;
     }
@@ -54,21 +53,31 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
     }
 
     @Override
-    public HomeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AddCityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (mHeaderView != null && viewType == TYPE_HEADER) {
-            return new HomeViewHolder(mHeaderView);
+            return new AddCityViewHolder(mHeaderView);
         }
         if (mFooterView != null && viewType == TYPE_FOOTER) {
-            return new HomeViewHolder(mFooterView);
+            return new AddCityViewHolder(mFooterView);
         }
-        return new HomeViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_home, parent, false));
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_home, parent, false);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(v, (int) v.getTag());
+                }
+            }
+        });
+        return new AddCityViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(HomeViewHolder holder, int position) {
+    public void onBindViewHolder(AddCityViewHolder holder, int position) {
         if (getItemViewType(position) == TYPE_NORMAL) {
-            FavoriteEntity cityEntity = mList.get(position);
-            holder.tv.setText(cityEntity.name_zh + " , " + cityEntity.city_zh + " , " + cityEntity.province_zh + " , " + cityEntity.country_name);
+            CityEntity cityEntity = mList.get(position);
+            holder.nameTv.setText(cityEntity.name_zh + " , " + cityEntity.city_zh + " , " + cityEntity.province_zh + " , " + cityEntity.country_name);
+            holder.itemView.setTag(position);
             return;
         } else if (getItemViewType(position) == TYPE_HEADER) {
             return;
@@ -106,11 +115,20 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         return TYPE_NORMAL;
     }
 
-    public class HomeViewHolder extends RecyclerView.ViewHolder {
+    private OnItemClickListener mOnItemClickListener;
 
-        TextView tv;
+    public interface OnItemClickListener {
+        void onItemClick(View v, int position);
+    }
 
-        public HomeViewHolder(View view) {
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mOnItemClickListener = listener;
+    }
+
+    public class AddCityViewHolder extends RecyclerView.ViewHolder {
+        TextView nameTv;
+
+        public AddCityViewHolder(View view) {
             super(view);
             //如果是headerview或者是footerview,直接返回
             if (itemView == mHeaderView) {
@@ -119,7 +137,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             if (itemView == mFooterView) {
                 return;
             }
-            tv = (TextView) view.findViewById(R.id.tv);
+            nameTv = (TextView) view.findViewById(R.id.tv);
         }
     }
 }

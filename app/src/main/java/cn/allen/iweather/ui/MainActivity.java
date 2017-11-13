@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import butterknife.OnClick;
 import cn.allen.iweather.R;
 import cn.allen.iweather.adapter.HomeAdapter;
 import cn.allen.iweather.lifecycle.MainObserver;
+import cn.allen.iweather.persistence.entity.FavoriteEntity;
 
 /**
  * Author: AllenWen
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
 
     private MainViewModel mViewModel;
     private HomeAdapter mAdapter;
-    private List<String> mList = new ArrayList<>();
+    private List<FavoriteEntity> mList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,23 +59,30 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getDatas();
+                getData();
             }
         });
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new HomeAdapter(this, mList);
+//        mAdapter.setHeaderView(LayoutInflater.from(this).inflate(R.layout.view_header, null));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mAdapter);
-        getDatas();
+
+        getData();
     }
 
-    private void getDatas() {
-        mViewModel.getContinents().observe(this, new Observer<List<String>>() {
+    private void getData() {
+        swipeRefreshLayout.setRefreshing(true);
+        mViewModel.loadFavorites().observe(this, new Observer<List<FavoriteEntity>>() {
             @Override
-            public void onChanged(@Nullable List<String> strings) {
-                Log.d(TAG, strings.toString());
-                mList.clear();
-                mList.addAll(strings);
-                mAdapter.notifyDataSetChanged();
+            public void onChanged(@Nullable List<FavoriteEntity> list) {
+                if (list == null || list.size() == 0) {
+                    //显示为空
+                } else {
+                    Log.d(TAG,"loadFavorites: "+list.toString());
+                    mList.clear();
+                    mList.addAll(list);
+                    mAdapter.notifyDataSetChanged();
+                }
                 if (swipeRefreshLayout.isRefreshing()) {
                     swipeRefreshLayout.setRefreshing(false);
                 }

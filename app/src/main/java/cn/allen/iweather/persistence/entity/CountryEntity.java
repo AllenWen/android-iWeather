@@ -14,10 +14,10 @@ import android.support.annotation.NonNull;
 public class CountryEntity {
     @NonNull
     @PrimaryKey
-    public String name_zh;
+    public String name_zh;//国家名称
     public String name_en;
     public String code;
-    public String continent;
+    public String continent;//所属大洲
 
     public CountryEntity(String name_zh, String name_en, String code, String continent) {
         this.name_zh = name_zh;

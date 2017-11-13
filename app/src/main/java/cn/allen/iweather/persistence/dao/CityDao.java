@@ -37,6 +37,15 @@ public interface CityDao {
     public LiveData<List<CityEntity>> loadAllCities();
 
     /**
+     * 根据地级行政区查询城市
+     *
+     * @param name_zh
+     * @return
+     */
+    @Query("SELECT * FROM city WHERE name_zh = :name_zh")
+    public LiveData<List<CityEntity>> loadCitiesByName(String name_zh);
+
+    /**
      * 根据国家查询城市
      *
      * @param country_name
