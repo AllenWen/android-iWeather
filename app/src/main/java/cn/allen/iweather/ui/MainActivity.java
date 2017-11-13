@@ -63,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
             }
         });
         mAdapter = new HomeAdapter(this, mList);
-//        mAdapter.setHeaderView(LayoutInflater.from(this).inflate(R.layout.view_header, null));
+//        mAdapter.setFooterView(LayoutInflater.from(this).inflate(R.layout.view_header, null));
+        mAdapter.setHeaderView(LayoutInflater.from(this).inflate(R.layout.view_header, null));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mAdapter);
 

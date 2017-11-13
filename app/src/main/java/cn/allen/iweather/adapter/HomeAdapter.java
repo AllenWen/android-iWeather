@@ -10,7 +10,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import cn.allen.iweather.R;
-import cn.allen.iweather.persistence.entity.CityEntity;
 import cn.allen.iweather.persistence.entity.FavoriteEntity;
 
 /**
@@ -21,9 +20,9 @@ import cn.allen.iweather.persistence.entity.FavoriteEntity;
  */
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
-    public static final int TYPE_HEADER = 0;  //说明是带有Header的
-    public static final int TYPE_FOOTER = 1;  //说明是带有Footer的
-    public static final int TYPE_NORMAL = 2;  //说明是不带有header和footer的
+    private static final int TYPE_HEADER = 1;
+    private static final int TYPE_FOOTER = 2;
+    private static final int TYPE_NORMAL = 3;
 
     private Context mContext;
     private List<FavoriteEntity> mList;
@@ -67,13 +66,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
     @Override
     public void onBindViewHolder(HomeViewHolder holder, int position) {
         if (getItemViewType(position) == TYPE_NORMAL) {
-            FavoriteEntity cityEntity = mList.get(position);
+            FavoriteEntity cityEntity;
+            if (mHeaderView == null) {
+                cityEntity = mList.get(position);
+            } else {
+                cityEntity = mList.get(position - 1);
+            }
             holder.tv.setText(cityEntity.name_zh + " , " + cityEntity.city_zh + " , " + cityEntity.province_zh + " , " + cityEntity.country_name);
-            return;
-        } else if (getItemViewType(position) == TYPE_HEADER) {
-            return;
-        } else {
-            return;
         }
     }
 
@@ -81,11 +80,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
     public int getItemCount() {
         if (mHeaderView == null && mFooterView == null) {
             return mList.size();
-        } else if (mHeaderView == null) {
+        } else if (mHeaderView == null) {//footer
             return mList.size() + 1;
-        } else if (mFooterView == null) {
+        } else if (mFooterView == null) {//header
             return mList.size() + 1;
-        } else {
+        } else {//header 和 footer
             return mList.size() + 2;
         }
     }
@@ -94,16 +93,27 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
     public int getItemViewType(int position) {
         if (mHeaderView == null && mFooterView == null) {
             return TYPE_NORMAL;
+        } else if (mFooterView == null) {//header
+            if (position == 0) {
+                return TYPE_HEADER;
+            } else {
+                return TYPE_NORMAL;
+            }
+        } else if (mHeaderView == null) {
+            if (position == getItemCount() - 1) {//footer
+                return TYPE_FOOTER;
+            } else {
+                return TYPE_NORMAL;
+            }
+        } else {//header 和 footer
+            if (position == 0) {
+                return TYPE_HEADER;
+            } else if (position == getItemCount() - 1) {
+                return TYPE_FOOTER;
+            } else {
+                return TYPE_NORMAL;
+            }
         }
-        if (position == 0) {
-            //第一个item应该加载Header
-            return TYPE_HEADER;
-        }
-        if (position == getItemCount() - 1) {
-            //最后一个,应该加载Footer
-            return TYPE_FOOTER;
-        }
-        return TYPE_NORMAL;
     }
 
     public class HomeViewHolder extends RecyclerView.ViewHolder {

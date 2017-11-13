@@ -78,11 +78,6 @@ public class AddCityAdapter extends RecyclerView.Adapter<AddCityAdapter.AddCityV
             CityEntity cityEntity = mList.get(position);
             holder.nameTv.setText(cityEntity.name_zh + " , " + cityEntity.city_zh + " , " + cityEntity.province_zh + " , " + cityEntity.country_name);
             holder.itemView.setTag(position);
-            return;
-        } else if (getItemViewType(position) == TYPE_HEADER) {
-            return;
-        } else {
-            return;
         }
     }
 
