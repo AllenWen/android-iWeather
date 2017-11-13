@@ -2,7 +2,13 @@ package cn.allen.iweather.webservice;
 
 import android.util.Log;
 
+import java.io.IOException;
+
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -40,15 +46,16 @@ public class Network {
 
     private OkHttpClient buildHttpClient() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        HttpLoggingInterceptor loggingInterceptor=new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override
             public void log(String message) {
-                Log.d(TAG,"OkHttp====LOG:"+message);
+                Log.d(TAG, "OkHttp====LOG:" + message);
             }
         });
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);//日志显示级别
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);//日志显示级别
         builder.addNetworkInterceptor(loggingInterceptor);
-        return  builder.build();
+        builder.addInterceptor(new LoggingInterceptor());
+        return builder.build();
     }
 
     public Api getApi() {
@@ -56,5 +63,21 @@ public class Network {
             mApi = mRetrofit.create(Api.class);
         }
         return mApi;
+    }
+
+    public class LoggingInterceptor implements Interceptor {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Request request = chain.request();
+            long t1 = System.nanoTime();//请求发起的时间
+            Response response = chain.proceed(request);
+            long t2 = System.nanoTime();//收到响应的时间
+            //这里不能直接使用response.body().string()的方式输出日志
+            //因为response.body().string()之后，response中的流会被关闭，程序会报错，我们需要创建出一
+            //个新的response给应用层处理
+            ResponseBody responseBody = response.peekBody(1024 * 1024);
+            Log.d(TAG, responseBody.string());
+            return response;
+        }
     }
 }

@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">心知天气</string>
 
+    <!-- main !-->
+    <string name="home">首页</string>
+    <string name="test">啊\n啊\n啊\n啊\n啊\n啊\n啊\n啊\n啊\n啊\n啊\n啊\n啊\n啊\n啊\n啊\n啊\n</string>
+    <!-- main !-->
+
     <!-- add_city !-->
     <string name="add_city">添加城市</string>
     <string name="search">搜索</string>

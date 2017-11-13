@@ -9,11 +9,8 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,16 +30,18 @@ import cn.allen.iweather.webservice.entity.WeatherNowEntity;
 
 public class AddCityActivity extends AppCompatActivity implements LifecycleOwner {
     private static final String TAG = MainActivity.class.getSimpleName();
+
     @BindView(R.id.appbar)
     AppBarLayout appBarLayout;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
     private AddCityViewModel mViewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_activity_addcity);
+        setContentView(R.layout.activity_addcity);
         ButterKnife.bind(this);
         getLifecycle().addObserver(new AddCityObserver(this));
         setSupportActionBar(toolbar);
@@ -51,13 +50,9 @@ public class AddCityActivity extends AppCompatActivity implements LifecycleOwner
             @Override
             public void onChanged(@Nullable ApiResponse<BaseWrapperEntity<WeatherNowEntity>> baseWrapperEntityApiResponse) {
                 if (baseWrapperEntityApiResponse.isSuccess()) {
-                    Log.d(TAG, "success !");
                     BaseWrapperEntity<WeatherNowEntity> baseWrapperEntity = baseWrapperEntityApiResponse.body;
-                    Log.d(TAG,  "status_code"+baseWrapperEntity.getStatus_code());
-                    Log.d(TAG,  "status"+baseWrapperEntity.getStatus());
-                    Log.d(TAG,  "results"+baseWrapperEntity.getResults().toString());
                 } else {
-                    Log.d(TAG, "failed !");
+
                 }
             }
         });
