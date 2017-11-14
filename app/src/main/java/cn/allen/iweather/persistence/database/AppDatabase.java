@@ -18,10 +18,8 @@ import java.io.InputStream;
 
 import cn.allen.iweather.App;
 import cn.allen.iweather.persistence.dao.CityDao;
-import cn.allen.iweather.persistence.dao.CountryDao;
 import cn.allen.iweather.persistence.dao.FavoriteDao;
 import cn.allen.iweather.persistence.entity.CityEntity;
-import cn.allen.iweather.persistence.entity.CountryEntity;
 import cn.allen.iweather.persistence.entity.FavoriteEntity;
 import cn.allen.iweather.repository.SpRepository;
 
@@ -31,7 +29,7 @@ import cn.allen.iweather.repository.SpRepository;
  * Email: wenxueguo@medlinker.com
  * Description:
  */
-@Database(entities = {CityEntity.class, CountryEntity.class, FavoriteEntity.class}, version = 2)
+@Database(entities = {CityEntity.class,FavoriteEntity.class}, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String TAG = AppDatabase.class.getSimpleName();
     private static final String DATABASE_NAME = "weather_db";
@@ -42,7 +40,7 @@ public abstract class AppDatabase extends RoomDatabase {
             synchronized (AppDatabase.class) {
                 if (Instance == null) {
                     Instance = Room.databaseBuilder(App.getAppContext(), AppDatabase.class, DATABASE_NAME)
-                            .addMigrations(MIGRATION_1_2)
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                             .build();
                 }
                 checkCopyDB();
@@ -54,7 +52,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public static void init() {
         Log.d(TAG, "database init...");
         Instance = Room.databaseBuilder(App.getAppContext(), AppDatabase.class, DATABASE_NAME)
-                .addMigrations(MIGRATION_1_2)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                 .build();
         checkCopyDB();
     }
@@ -64,6 +62,13 @@ public abstract class AppDatabase extends RoomDatabase {
         public void migrate(SupportSQLiteDatabase database) {
 //            database.execSQL("CREATE TABLE `favorite` (`id` TEXT, `name_zh` TEXT, `name_en` TEXT, `country_name` TEXT, `country_code` TEXT, "
 //                    + "`province_zh` TEXT, `province_en` TEXT, `city_zh` TEXT, `city_en` TEXT, PRIMARY KEY(`id`))");
+        }
+    };
+
+    private static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+
         }
     };
 
@@ -95,8 +100,6 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public abstract CityDao cityDao();
-
-    public abstract CountryDao countryDao();
 
     public abstract FavoriteDao favoriteDao();
 

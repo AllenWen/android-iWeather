@@ -11,8 +11,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +22,10 @@ import cn.allen.iweather.R;
 import cn.allen.iweather.adapter.HomeAdapter;
 import cn.allen.iweather.lifecycle.MainObserver;
 import cn.allen.iweather.persistence.entity.FavoriteEntity;
+import cn.allen.iweather.webservice.ApiResponse;
+import cn.allen.iweather.webservice.entity.BaseWrapperEntity;
+import cn.allen.iweather.webservice.entity.LocationEntity;
+import cn.allen.iweather.webservice.entity.WeatherNowEntity;
 
 /**
  * Author: AllenWen
@@ -44,7 +46,8 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
 
     private MainViewModel mViewModel;
     private HomeAdapter mAdapter;
-    private List<FavoriteEntity> mList = new ArrayList<>();
+    private List<WeatherNowEntity> mList = new ArrayList<>();
+    private int mUpdateCount;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,42 +56,75 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
         ButterKnife.bind(this);
         getLifecycle().addObserver(new MainObserver(this));
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
         swipeRefreshLayout.setDistanceToTriggerSync(300);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getData();
+                loadFavo();
             }
         });
         mAdapter = new HomeAdapter(this, mList);
-//        mAdapter.setFooterView(LayoutInflater.from(this).inflate(R.layout.view_header, null));
-        mAdapter.setHeaderView(LayoutInflater.from(this).inflate(R.layout.view_header, null));
+        mAdapter.setFooterView(R.layout.item_header);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mAdapter);
 
-        getData();
+        loadFavo();
     }
 
-    private void getData() {
+    private void loadFavo() {
+        mUpdateCount = 0;
         swipeRefreshLayout.setRefreshing(true);
         mViewModel.loadFavorites().observe(this, new Observer<List<FavoriteEntity>>() {
             @Override
             public void onChanged(@Nullable List<FavoriteEntity> list) {
-                if (list == null || list.size() == 0) {
-                    //显示为空
-                } else {
-                    Log.d(TAG,"loadFavorites: "+list.toString());
+                if (list != null && list.size() > 0) {
                     mList.clear();
-                    mList.addAll(list);
+                    for (FavoriteEntity entity : list) {
+                        WeatherNowEntity weatherNowEntity = new WeatherNowEntity(new LocationEntity(entity.id, entity.name, entity.path), null, "");
+                        mList.add(weatherNowEntity);
+                    }
                     mAdapter.notifyDataSetChanged();
-                }
-                if (swipeRefreshLayout.isRefreshing()) {
-                    swipeRefreshLayout.setRefreshing(false);
+                    loadWeather(list);
                 }
             }
         });
+    }
+
+    private void loadWeather(List<FavoriteEntity> list) {
+        for (FavoriteEntity entity : list) {
+            mViewModel.now(entity.id).observe(this, new Observer<ApiResponse<BaseWrapperEntity<WeatherNowEntity>>>() {
+                @Override
+                public void onChanged(@Nullable ApiResponse<BaseWrapperEntity<WeatherNowEntity>> baseWrapperEntityApiResponse) {
+                    if (baseWrapperEntityApiResponse != null && baseWrapperEntityApiResponse.isSuccess()) {
+                        BaseWrapperEntity<WeatherNowEntity> wrapperEntity = baseWrapperEntityApiResponse.body;
+                        if (wrapperEntity != null) {
+                            WeatherNowEntity weatherNowEntity = wrapperEntity.getResults().get(0);
+                            updateWeather(weatherNowEntity);
+                        } else {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    } else {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }
+            });
+        }
+    }
+
+    private void updateWeather(WeatherNowEntity weatherNowEntity) {
+        for (WeatherNowEntity nowEntity : mList) {
+            if (nowEntity.getLocation().getId().equals(weatherNowEntity.getLocation().getId())) {
+                nowEntity.setNow(weatherNowEntity.getNow());
+                nowEntity.setLast_update(weatherNowEntity.getLast_update());
+                ++mUpdateCount;
+                break;
+            }
+        }
+        mAdapter.notifyDataSetChanged();
+        if (mUpdateCount == mList.size()) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @OnClick(R.id.fab)

@@ -47,6 +47,6 @@
         app:layout_anchorGravity="bottom|right"
         app:layout_behavior="cn.allen.iweather.utils.FABBehavior"
         app:pressedTranslationZ="12dp"
-        app:rippleColor="@color/rippleColor" />
+        app:rippleColor="@color/color_a6a6a6" />
 
 </android.support.design.widget.CoordinatorLayout>

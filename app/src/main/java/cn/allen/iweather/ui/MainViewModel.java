@@ -8,6 +8,7 @@ import java.util.List;
 import cn.allen.iweather.persistence.entity.FavoriteEntity;
 import cn.allen.iweather.repository.FavoriteRepository;
 import cn.allen.iweather.repository.WeatherRepository;
+import cn.allen.iweather.utils.Configs;
 import cn.allen.iweather.webservice.ApiResponse;
 import cn.allen.iweather.webservice.entity.BaseWrapperEntity;
 import cn.allen.iweather.webservice.entity.WeatherNowEntity;
@@ -28,8 +29,8 @@ public class MainViewModel extends ViewModel {
         return  FavoriteRepository.getInstance().loadFavorites();
     }
 
-    public LiveData<ApiResponse<BaseWrapperEntity<WeatherNowEntity>>> now(String key, String location, String language, String unit){
-        return WeatherRepository.getInstance().now(key, location, language, unit);
+    public LiveData<ApiResponse<BaseWrapperEntity<WeatherNowEntity>>> now(String location){
+        return WeatherRepository.getInstance().now(Configs.KEY, location, Configs.LANG, Configs.UNIT);
     }
 
 }

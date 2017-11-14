@@ -3,9 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="rippleColor">#A6A6A6</color>
 
-    <color name="font_color_454553">#454553</color>
-    <color name="font_color_8c8c93">#8c8c93</color>
-    <color name="font_color_c3c3c6">#c3c3c6</color>
+    <color name="color_a6a6a6">#a6a6a6</color>
+    <color name="color_454553">#454553</color>
+    <color name="color_8c8c93">#8c8c93</color>
+    <color name="color_c3c3c6">#c3c3c6</color>
 </resources>

@@ -60,7 +60,7 @@ public class AddCityAdapter extends RecyclerView.Adapter<AddCityAdapter.AddCityV
         if (mFooterView != null && viewType == TYPE_FOOTER) {
             return new AddCityViewHolder(mFooterView);
         }
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_home, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_addcity, parent, false);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

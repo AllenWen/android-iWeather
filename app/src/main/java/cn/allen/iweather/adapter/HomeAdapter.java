@@ -2,15 +2,17 @@ package cn.allen.iweather.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
 import cn.allen.iweather.R;
-import cn.allen.iweather.persistence.entity.FavoriteEntity;
+import cn.allen.iweather.webservice.entity.WeatherNowEntity;
 
 /**
  * Author: AllenWen
@@ -20,69 +22,88 @@ import cn.allen.iweather.persistence.entity.FavoriteEntity;
  */
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
+    private static final int INVALID_ID = -1;
     private static final int TYPE_HEADER = 1;
     private static final int TYPE_FOOTER = 2;
     private static final int TYPE_NORMAL = 3;
 
     private Context mContext;
-    private List<FavoriteEntity> mList;
+    private List<WeatherNowEntity> mList;
+    private int mHeaderRes = INVALID_ID;
+    private int mFooterRes = INVALID_ID;
     private View mHeaderView;
     private View mFooterView;
 
-    public HomeAdapter(Context context, List<FavoriteEntity> list) {
+    public HomeAdapter(Context context, List<WeatherNowEntity> list) {
         mContext = context;
         mList = list;
     }
 
-    public View getHeaderView() {
-        return mHeaderView;
-    }
-
-    public void setHeaderView(View mHeaderView) {
-        this.mHeaderView = mHeaderView;
+    public void setHeaderView(int layoutRes) {
+        this.mHeaderRes = layoutRes;
         notifyItemInserted(0);
     }
 
-    public View getFooterView() {
-        return mFooterView;
-    }
-
-    public void setFooterView(View mFooterView) {
-        this.mFooterView = mFooterView;
+    public void setFooterView(int layoutRes) {
+        this.mFooterRes = layoutRes;
         notifyItemInserted(getItemCount() - 1);
     }
 
     @Override
     public HomeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (mHeaderView != null && viewType == TYPE_HEADER) {
-            return new HomeViewHolder(mHeaderView);
+        View view;
+        if (mHeaderRes != INVALID_ID && viewType == TYPE_HEADER) {
+            view = LayoutInflater.from(mContext).inflate(mHeaderRes, parent, false);
+            mHeaderView = view;
+        } else if (mFooterRes != INVALID_ID && viewType == TYPE_FOOTER) {
+            view = LayoutInflater.from(mContext).inflate(mFooterRes, parent, false);
+            mFooterView = view;
+        } else {
+            view = LayoutInflater.from(mContext).inflate(R.layout.item_home, parent, false);
         }
-        if (mFooterView != null && viewType == TYPE_FOOTER) {
-            return new HomeViewHolder(mFooterView);
-        }
-        return new HomeViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_home, parent, false));
+        return new HomeViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(HomeViewHolder holder, int position) {
         if (getItemViewType(position) == TYPE_NORMAL) {
-            FavoriteEntity cityEntity;
-            if (mHeaderView == null) {
-                cityEntity = mList.get(position);
+            WeatherNowEntity entity;
+            if (mHeaderRes == INVALID_ID) {
+                entity = mList.get(position);
             } else {
-                cityEntity = mList.get(position - 1);
+                entity = mList.get(position - 1);
             }
-            holder.tv.setText(cityEntity.name_zh + " , " + cityEntity.city_zh + " , " + cityEntity.province_zh + " , " + cityEntity.country_name);
+            if (entity.getLocation() != null) {
+                holder.name.setText(entity.getLocation().getName());
+                holder.addr.setText(entity.getLocation().getPath());
+            }
+            if (entity.getNow() != null) {
+                holder.desc.setText(entity.getNow().getText());
+                holder.temperature.setText(String.valueOf(entity.getNow().getTemperature())+"℃");
+                String imgRes = "ic_weather_" + entity.getNow().getCode();
+                int resId = mContext.getResources().getIdentifier(imgRes, "mipmap", mContext.getPackageName());
+                holder.image.setImageResource(resId);
+            }else {
+                holder.desc.setText("- - - -");
+                holder.temperature.setText("--℃");
+                holder.image.setImageResource(R.mipmap.ic_weather_99);
+            }
+            if (!TextUtils.isEmpty(entity.getLast_update())) {
+                String last_update = entity.getLast_update();
+                holder.time.setText("更新于" + last_update.substring(11, 16));
+            }else {
+                holder.time.setText("更新于--:--");
+            }
         }
     }
 
     @Override
     public int getItemCount() {
-        if (mHeaderView == null && mFooterView == null) {
+        if (mHeaderRes == INVALID_ID && mFooterRes == INVALID_ID) {
             return mList.size();
-        } else if (mHeaderView == null) {//footer
+        } else if (mHeaderRes == INVALID_ID) {//footer
             return mList.size() + 1;
-        } else if (mFooterView == null) {//header
+        } else if (mFooterRes == INVALID_ID) {//header
             return mList.size() + 1;
         } else {//header 和 footer
             return mList.size() + 2;
@@ -91,15 +112,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        if (mHeaderView == null && mFooterView == null) {
+        if (mHeaderRes == INVALID_ID && mFooterRes == INVALID_ID) {
             return TYPE_NORMAL;
-        } else if (mFooterView == null) {//header
+        } else if (mFooterRes == INVALID_ID) {//header
             if (position == 0) {
                 return TYPE_HEADER;
             } else {
                 return TYPE_NORMAL;
             }
-        } else if (mHeaderView == null) {
+        } else if (mHeaderRes == INVALID_ID) {
             if (position == getItemCount() - 1) {//footer
                 return TYPE_FOOTER;
             } else {
@@ -116,20 +137,28 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         }
     }
 
-    public class HomeViewHolder extends RecyclerView.ViewHolder {
+    class HomeViewHolder extends RecyclerView.ViewHolder {
+        TextView name;
+        TextView addr;
+        TextView desc;
+        TextView temperature;
+        TextView time;
+        ImageView image;
 
-        TextView tv;
-
-        public HomeViewHolder(View view) {
+        HomeViewHolder(View view) {
             super(view);
-            //如果是headerview或者是footerview,直接返回
             if (itemView == mHeaderView) {
                 return;
             }
             if (itemView == mFooterView) {
                 return;
             }
-            tv = (TextView) view.findViewById(R.id.tv);
+            name = view.findViewById(R.id.name);
+            addr = view.findViewById(R.id.addr);
+            desc = view.findViewById(R.id.desc);
+            time = view.findViewById(R.id.time);
+            temperature = view.findViewById(R.id.temperature);
+            image = view.findViewById(R.id.image);
         }
     }
 }

@@ -11,8 +11,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,14 +22,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.allen.iweather.R;
 import cn.allen.iweather.adapter.AddCityAdapter;
-import cn.allen.iweather.adapter.HomeAdapter;
 import cn.allen.iweather.lifecycle.AddCityObserver;
 import cn.allen.iweather.persistence.entity.CityEntity;
 import cn.allen.iweather.persistence.entity.FavoriteEntity;
-import cn.allen.iweather.utils.Configs;
-import cn.allen.iweather.webservice.ApiResponse;
-import cn.allen.iweather.webservice.entity.BaseWrapperEntity;
-import cn.allen.iweather.webservice.entity.WeatherNowEntity;
 
 /**
  * Author: AllenWen
@@ -68,11 +61,11 @@ public class AddCityActivity extends AppCompatActivity implements LifecycleOwner
             @Override
             public void onItemClick(View v, int position) {
                 CityEntity entity = mList.get(position);
-                final FavoriteEntity favoriteEntity = new FavoriteEntity(entity.id, entity.name_zh, entity.name_en, entity.country_name, entity.country_code, entity.province_zh, entity.province_en, entity.city_zh, entity.city_en);
+                String path = entity.province_zh + "," + entity.country_name;
+                final FavoriteEntity favoriteEntity = new FavoriteEntity(entity.id, entity.name_zh, path);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.d(TAG,"insertFavorite");
                         mViewModel.insertFavorite(favoriteEntity);
                     }
                 }).start();
@@ -108,9 +101,11 @@ public class AddCityActivity extends AppCompatActivity implements LifecycleOwner
         mViewModel.searchCity(key).observe(AddCityActivity.this, new Observer<List<CityEntity>>() {
             @Override
             public void onChanged(@Nullable List<CityEntity> cityEntities) {
-                mList.clear();
-                mList.addAll(cityEntities);
-                mAdapter.notifyDataSetChanged();
+                if (cityEntities != null && cityEntities.size() > 0) {
+                    mList.clear();
+                    mList.addAll(cityEntities);
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         });
     }

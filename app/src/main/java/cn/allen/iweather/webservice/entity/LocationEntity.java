@@ -23,6 +23,12 @@ public class LocationEntity implements Parcelable{
     @SerializedName("timezone_offset")
     private String timezone_offset;//时区偏移
 
+    public LocationEntity(String id, String name, String path) {
+        this.id = id;
+        this.name = name;
+        this.path = path;
+    }
+
     public String getId() {
         return id;
     }
