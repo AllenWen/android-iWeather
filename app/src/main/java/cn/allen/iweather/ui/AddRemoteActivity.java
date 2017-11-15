@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,20 +22,22 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.allen.iweather.R;
-import cn.allen.iweather.adapter.AddCityAdapter;
-import cn.allen.iweather.lifecycle.AddCityObserver;
-import cn.allen.iweather.persistence.entity.CityEntity;
+import cn.allen.iweather.adapter.CityAdapter;
+import cn.allen.iweather.lifecycle.AddRemoteObserver;
 import cn.allen.iweather.persistence.entity.FavoriteEntity;
+import cn.allen.iweather.webservice.ApiResponse;
+import cn.allen.iweather.webservice.entity.BaseWrapperEntity;
+import cn.allen.iweather.webservice.entity.LocationEntity;
+import cn.allen.iweather.webservice.entity.WeatherNowEntity;
 
 /**
  * Author: AllenWen
- * CreateTime: 2017/11/9
+ * CreateTime: 2017/11/15
  * Email: wenxueguo@medlinker.com
  * Description:
  */
 
-public class AddCityActivity extends AppCompatActivity implements LifecycleOwner {
-    private static final String TAG = MainActivity.class.getSimpleName();
+public class AddRemoteActivity extends AppCompatActivity implements LifecycleOwner {
 
     @BindView(R.id.appbar)
     AppBarLayout appBarLayout;
@@ -43,32 +46,33 @@ public class AddCityActivity extends AppCompatActivity implements LifecycleOwner
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
 
-    private AddCityViewModel mViewModel;
-    private AddCityAdapter mAdapter;
-    private List<CityEntity> mList = new ArrayList<>();
+    private AddRemoteViewModel mViewModel;
+    private CityAdapter mAdapter;
+    private List<LocationEntity> mList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_addcity);
+        setContentView(R.layout.activity_add_remote);
         ButterKnife.bind(this);
-        getLifecycle().addObserver(new AddCityObserver(this));
+        getLifecycle().addObserver(new AddRemoteObserver());
         setSupportActionBar(toolbar);
-        mViewModel = ViewModelProviders.of(this).get(AddCityViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(AddRemoteViewModel.class);
 
-        mAdapter = new AddCityAdapter(this, mList);
-        mAdapter.setOnItemClickListener(new AddCityAdapter.OnItemClickListener() {
+        mAdapter = new CityAdapter(this, mList);
+        mAdapter.setOnItemClickListener(new CityAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View v, int position) {
-                CityEntity entity = mList.get(position);
-                String path = entity.province_zh + "," + entity.country_name;
-                final FavoriteEntity favoriteEntity = new FavoriteEntity(entity.id, entity.name_zh, path);
+            public void onItemClick(View v, ImageView favo, int position) {
+                LocationEntity entity = mList.get(position);
+                final FavoriteEntity favoriteEntity = new FavoriteEntity(entity.getId(), entity.getName(), entity.getPath());
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         mViewModel.insertFavorite(favoriteEntity);
                     }
                 }).start();
+                entity.setFavorite(true);
+                favo.setSelected(true);
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -77,10 +81,10 @@ public class AddCityActivity extends AppCompatActivity implements LifecycleOwner
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_add_city, menu);
+        getMenuInflater().inflate(R.menu.menu_add_local, menu);
         MenuItem item = menu.findItem(R.id.search_view);
         SearchView searchView = (SearchView) item.getActionView();
-        searchView.setQueryHint(getString(R.string.search_hint));
+        searchView.setQueryHint(getString(R.string.remote_search_hint));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -97,14 +101,24 @@ public class AddCityActivity extends AppCompatActivity implements LifecycleOwner
         return true;
     }
 
-    private void searchCity(String key) {
-        mViewModel.searchCity(key).observe(AddCityActivity.this, new Observer<List<CityEntity>>() {
+    private void searchCity(String query) {
+        mViewModel.searchCity(query).observe(this, new Observer<ApiResponse<BaseWrapperEntity<LocationEntity>>>() {
             @Override
-            public void onChanged(@Nullable List<CityEntity> cityEntities) {
-                if (cityEntities != null && cityEntities.size() > 0) {
-                    mList.clear();
-                    mList.addAll(cityEntities);
-                    mAdapter.notifyDataSetChanged();
+            public void onChanged(@Nullable ApiResponse<BaseWrapperEntity<LocationEntity>> baseWrapperEntityApiResponse) {
+                if (baseWrapperEntityApiResponse != null && baseWrapperEntityApiResponse.isSuccess()) {
+                    BaseWrapperEntity<LocationEntity> wrapperEntity = baseWrapperEntityApiResponse.body;
+                    if (wrapperEntity != null) {
+                        List<LocationEntity> results = wrapperEntity.getResults();
+                        if (results != null && results.size() > 0) {
+                            mList.clear();
+                            mList.addAll(results);
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    } else {
+
+                    }
+                } else {
+
                 }
             }
         });
@@ -119,4 +133,5 @@ public class AddCityActivity extends AppCompatActivity implements LifecycleOwner
         }
         return true;
     }
+
 }

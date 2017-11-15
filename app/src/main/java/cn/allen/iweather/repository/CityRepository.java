@@ -6,6 +6,10 @@ import java.util.List;
 
 import cn.allen.iweather.persistence.database.AppDatabase;
 import cn.allen.iweather.persistence.entity.CityEntity;
+import cn.allen.iweather.webservice.ApiResponse;
+import cn.allen.iweather.webservice.Network;
+import cn.allen.iweather.webservice.entity.BaseWrapperEntity;
+import cn.allen.iweather.webservice.entity.LocationEntity;
 
 /**
  * Author: AllenWen
@@ -55,6 +59,10 @@ public class CityRepository {
 
     public LiveData<List<String>> getCities(String province_zh) {
         return AppDatabase.getInstance().cityDao().getCities(province_zh);
+    }
+
+    public LiveData<ApiResponse<BaseWrapperEntity<LocationEntity>>> searchCity(String key, String q, String language, int limit, int offset) {
+        return Network.instance().getApi().searchCity(key, q, language, limit, offset);
     }
 
 }

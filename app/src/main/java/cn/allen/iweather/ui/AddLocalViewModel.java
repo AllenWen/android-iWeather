@@ -14,9 +14,9 @@ import cn.allen.iweather.repository.FavoriteRepository;
  * Created by allen on 2017/11/12.
  */
 
-public class AddCityViewModel extends ViewModel {
+public class AddLocalViewModel extends ViewModel {
 
-    public AddCityViewModel() {
+    public AddLocalViewModel() {
     }
 
     public LiveData<List<CityEntity>> searchCity(String name) {

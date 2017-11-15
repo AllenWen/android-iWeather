@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".ui.AddCityActivity">
+    tools:context=".ui.AddLocalActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -22,7 +22,7 @@
             app:navigationContentDescription="@string/back"
             app:navigationIcon="@mipmap/ic_action_arrow_back"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="@string/add_city"
+            app:title="@string/local_add_city"
             app:titleTextColor="@android:color/white" />
     </android.support.design.widget.AppBarLayout>
 

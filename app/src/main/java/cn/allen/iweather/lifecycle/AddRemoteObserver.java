@@ -1,21 +1,17 @@
 package cn.allen.iweather.lifecycle;
 
-import android.content.Context;
-
 /**
- * Created by allen on 2017/11/12.
+ * Author: AllenWen
+ * CreateTime: 2017/11/15
+ * Email: wenxueguo@medlinker.com
+ * Description:
  */
 
-public class AddCityObserver implements BaseLifecycleObserver {
-
-    private Context mContext;
-
-    public AddCityObserver(Context context) {
-        mContext = context;
-    }
+public class AddRemoteObserver implements BaseLifecycleObserver {
 
     @Override
     public void onCreate() {
+
     }
 
     @Override

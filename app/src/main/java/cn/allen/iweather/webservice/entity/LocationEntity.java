@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by allen on 2017/11/12.
  */
 
-public class LocationEntity implements Parcelable{
+public class LocationEntity extends BaseEntity implements Parcelable {
     @SerializedName("id")
     private String id;//城市代码
     @SerializedName("name")
@@ -22,6 +22,8 @@ public class LocationEntity implements Parcelable{
     private String timezone;//时区
     @SerializedName("timezone_offset")
     private String timezone_offset;//时区偏移
+
+    private boolean isFavorite;
 
     public LocationEntity(String id, String name, String path) {
         this.id = id;
@@ -75,6 +77,14 @@ public class LocationEntity implements Parcelable{
 
     public void setTimezone_offset(String timezone_offset) {
         this.timezone_offset = timezone_offset;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 
     @Override

@@ -93,9 +93,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             }
             if (!TextUtils.isEmpty(entity.getLast_update())) {
                 String last_update = entity.getLast_update();
-                holder.time.setText(mContext.getString(R.string.update, last_update.substring(11, 16)));
+                holder.time.setText(mContext.getString(R.string.update_format, last_update.substring(11, 16)));
             } else {
-                holder.time.setText(mContext.getString(R.string.update, mContext.getString(R.string.default_time)));
+                holder.time.setText(mContext.getString(R.string.update_format, mContext.getString(R.string.default_time)));
             }
         }
     }

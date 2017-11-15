@@ -34,6 +34,7 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/fam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
@@ -49,6 +50,7 @@
         fab:fab_labelsPosition="left">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/colorAccent"
@@ -58,13 +60,14 @@
             fab:fab_title="@string/by_search" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_local"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/colorAccent"
             fab:fab_colorPressed="@color/colorDivider"
             fab:fab_icon="@mipmap/ic_action_add"
             fab:fab_size="normal"
-            fab:fab_title="@string/by_local"/>
+            fab:fab_title="@string/by_local" />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 

@@ -24,7 +24,7 @@ public class WeatherRepository {
         return mInstance;
     }
 
-    public LiveData<ApiResponse<BaseWrapperEntity<WeatherNowEntity>>> now( String key,  String location,String language,  String unit){
+    public LiveData<ApiResponse<BaseWrapperEntity<WeatherNowEntity>>> now(String key, String location, String language, String unit) {
         return Network.instance().getApi().now(key, location, language, unit);
     }
 

@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.AddCityActivity">
+    tools:context=".ui.AddLocalActivity">
     <item
         android:id="@+id/search_view"
         android:icon="@mipmap/ic_action_search"

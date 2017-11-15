@@ -6,11 +6,14 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +44,12 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
-//    @BindView(R.id.fab)
-//    FloatingActionButton button;
+    @BindView(R.id.fam)
+    FloatingActionsMenu fam;
+    @BindView(R.id.fab_search)
+    FloatingActionButton fab_search;
+    @BindView(R.id.fab_local)
+    FloatingActionButton fab_local;
 
     private MainViewModel mViewModel;
     private HomeAdapter mAdapter;
@@ -86,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
                     }
                     mAdapter.notifyDataSetChanged();
                     loadWeather(list);
+                } else {
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             }
         });
@@ -127,10 +136,16 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
         }
     }
 
-//    @OnClick(R.id.fab)
-//    public void onClick() {
-//        Intent intent = new Intent(this, AddCityActivity.class);
-//        startActivity(intent);
-//    }
+    @OnClick({R.id.fab_search, R.id.fab_local})
+    public void onClick(View view) {
+        fam.collapse();
+        if (view.getId() == R.id.fab_search) {
+            Intent intent = new Intent(this, AddRemoteActivity.class);
+            startActivity(intent);
+        } else if (view.getId() == R.id.fab_local) {
+            Intent intent = new Intent(this, AddLocalActivity.class);
+            startActivity(intent);
+        }
+    }
 
 }
