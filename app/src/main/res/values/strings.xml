@@ -22,5 +22,6 @@
     <!-- add_remote !-->
     <string name="search_city">搜索城市</string>
     <string name="remote_search_hint">请输入城市名(中文、拼音等)</string>
+    <string name="search_city_failed">抱歉，未查询到城市</string>
 
 </resources>

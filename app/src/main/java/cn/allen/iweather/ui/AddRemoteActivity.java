@@ -11,10 +11,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +41,12 @@ import cn.allen.iweather.webservice.entity.WeatherNowEntity;
  */
 
 public class AddRemoteActivity extends AppCompatActivity implements LifecycleOwner {
-
     @BindView(R.id.appbar)
     AppBarLayout appBarLayout;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.loading)
+    ProgressBar loadingView;
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
 
@@ -102,24 +106,31 @@ public class AddRemoteActivity extends AppCompatActivity implements LifecycleOwn
     }
 
     private void searchCity(String query) {
+        if (TextUtils.isEmpty(query.trim())) {
+            return;
+        }
+        showLoading();
         mViewModel.searchCity(query).observe(this, new Observer<ApiResponse<BaseWrapperEntity<LocationEntity>>>() {
             @Override
             public void onChanged(@Nullable ApiResponse<BaseWrapperEntity<LocationEntity>> baseWrapperEntityApiResponse) {
+                mList.clear();
                 if (baseWrapperEntityApiResponse != null && baseWrapperEntityApiResponse.isSuccess()) {
                     BaseWrapperEntity<LocationEntity> wrapperEntity = baseWrapperEntityApiResponse.body;
                     if (wrapperEntity != null) {
                         List<LocationEntity> results = wrapperEntity.getResults();
                         if (results != null && results.size() > 0) {
-                            mList.clear();
                             mList.addAll(results);
-                            mAdapter.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(AddRemoteActivity.this, R.string.search_city_failed, Toast.LENGTH_SHORT).show();
                         }
                     } else {
-
+                        Toast.makeText(AddRemoteActivity.this, R.string.search_city_failed, Toast.LENGTH_SHORT).show();
                     }
                 } else {
-
+                    Toast.makeText(AddRemoteActivity.this, R.string.search_city_failed, Toast.LENGTH_SHORT).show();
                 }
+                hideLoading();
+                mAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -132,6 +143,16 @@ public class AddRemoteActivity extends AppCompatActivity implements LifecycleOwn
                 break;
         }
         return true;
+    }
+
+    private void showLoading() {
+        loadingView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+
+    private void hideLoading() {
+        loadingView.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
 }

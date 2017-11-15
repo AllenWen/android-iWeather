@@ -11,10 +11,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +45,8 @@ public class AddLocalActivity extends AppCompatActivity implements LifecycleOwne
     AppBarLayout appBarLayout;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.loading)
+    ProgressBar loadingView;
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
 
@@ -100,18 +105,25 @@ public class AddLocalActivity extends AppCompatActivity implements LifecycleOwne
         return true;
     }
 
-    private void searchCity(String key) {
-        mViewModel.searchCity(key).observe(AddLocalActivity.this, new Observer<List<CityEntity>>() {
+    private void searchCity(String query) {
+        if (TextUtils.isEmpty(query.trim())) {
+            return;
+        }
+        showLoading();
+        mViewModel.searchCity(query).observe(AddLocalActivity.this, new Observer<List<CityEntity>>() {
             @Override
             public void onChanged(@Nullable List<CityEntity> cityEntities) {
+                mList.clear();
                 if (cityEntities != null && cityEntities.size() > 0) {
-                    mList.clear();
                     for (CityEntity cityEntity : cityEntities) {
                         LocationEntity entity = new LocationEntity(cityEntity.id, cityEntity.name_zh, cityEntity.province_zh + "," + cityEntity.country_name);
                         mList.add(entity);
                     }
-                    mAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(AddLocalActivity.this, R.string.search_city_failed, Toast.LENGTH_SHORT).show();
                 }
+                hideLoading();
+                mAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -124,6 +136,16 @@ public class AddLocalActivity extends AppCompatActivity implements LifecycleOwne
                 break;
         }
         return true;
+    }
+
+    private void showLoading() {
+        loadingView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+
+    private void hideLoading() {
+        loadingView.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
 }
