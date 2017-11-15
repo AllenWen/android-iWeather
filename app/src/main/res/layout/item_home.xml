@@ -25,8 +25,8 @@
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="- -"
-                android:textColor="@color/color_454553"
+                android:text="@string/default_name"
+                android:textColor="@color/colorPrimaryText"
                 android:textSize="18sp" />
 
             <TextView
@@ -34,7 +34,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:text="- - - -"
+                android:text="@string/default_text"
+                android:textColor="@color/colorSecondaryText"
                 android:textSize="12sp" />
 
             <ImageView
@@ -53,8 +54,8 @@
                 android:ellipsize="end"
                 android:gravity="end"
                 android:maxLines="1"
-                android:text="- - - -"
-                android:textColor="@color/color_454553"
+                android:text="@string/default_text"
+                android:textColor="@color/colorPrimaryText"
                 android:textSize="14sp" />
 
             <TextView
@@ -64,8 +65,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_below="@id/desc"
                 android:gravity="end"
-                android:text="--℃"
-                android:textColor="@color/color_454553"
+                android:text="@string/default_temperature"
+                android:textColor="@color/colorPrimaryText"
                 android:textSize="18sp" />
 
             <TextView
@@ -75,7 +76,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:gravity="end"
-                android:text="更新于--:--"
+                android:textColor="@color/colorSecondaryText"
                 android:textSize="10sp" />
 
         </RelativeLayout>

@@ -76,23 +76,26 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             if (entity.getLocation() != null) {
                 holder.name.setText(entity.getLocation().getName());
                 holder.addr.setText(entity.getLocation().getPath());
+            } else {
+                holder.name.setText(R.string.default_name);
+                holder.addr.setText(R.string.default_text);
             }
             if (entity.getNow() != null) {
                 holder.desc.setText(entity.getNow().getText());
-                holder.temperature.setText(String.valueOf(entity.getNow().getTemperature())+"℃");
+                holder.temperature.setText(entity.getNow().getTemperature() + "℃");
                 String imgRes = "ic_weather_" + entity.getNow().getCode();
                 int resId = mContext.getResources().getIdentifier(imgRes, "mipmap", mContext.getPackageName());
                 holder.image.setImageResource(resId);
-            }else {
-                holder.desc.setText("- - - -");
-                holder.temperature.setText("--℃");
+            } else {
+                holder.desc.setText(R.string.default_text);
+                holder.temperature.setText(R.string.default_temperature);
                 holder.image.setImageResource(R.mipmap.ic_weather_99);
             }
             if (!TextUtils.isEmpty(entity.getLast_update())) {
                 String last_update = entity.getLast_update();
-                holder.time.setText("更新于" + last_update.substring(11, 16));
-            }else {
-                holder.time.setText("更新于--:--");
+                holder.time.setText(mContext.getString(R.string.update, last_update.substring(11, 16)));
+            } else {
+                holder.time.setText(mContext.getString(R.string.update, mContext.getString(R.string.default_time)));
             }
         }
     }

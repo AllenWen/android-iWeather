@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
-    @BindView(R.id.fab)
-    FloatingActionButton button;
+//    @BindView(R.id.fab)
+//    FloatingActionButton button;
 
     private MainViewModel mViewModel;
     private HomeAdapter mAdapter;
@@ -127,10 +127,10 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
         }
     }
 
-    @OnClick(R.id.fab)
-    public void onClick() {
-        Intent intent = new Intent(this, AddCityActivity.class);
-        startActivity(intent);
-    }
+//    @OnClick(R.id.fab)
+//    public void onClick() {
+//        Intent intent = new Intent(this, AddCityActivity.class);
+//        startActivity(intent);
+//    }
 
 }

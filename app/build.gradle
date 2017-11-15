@@ -44,9 +44,11 @@ dependencies {
     //Retrofit2
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-    //Butterknife
+    //ButterKnife
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    //okhttp3
+    //OkHttp3-logging
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+    //FAB
+    compile 'com.getbase:floatingactionbutton:1.10.1'
 }

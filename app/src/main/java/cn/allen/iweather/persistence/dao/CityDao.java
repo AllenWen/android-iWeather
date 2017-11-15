@@ -37,7 +37,7 @@ public interface CityDao {
     public LiveData<List<CityEntity>> loadAllCities();
 
     /**
-     * 根据地级行政区查询城市
+     * 根据城市名称查询城市
      *
      * @param name_zh
      * @return

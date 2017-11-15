@@ -20,9 +20,9 @@ import cn.allen.iweather.persistence.entity.CityEntity;
  */
 
 public class AddCityAdapter extends RecyclerView.Adapter<AddCityAdapter.AddCityViewHolder> {
-    public static final int TYPE_HEADER = 0;  //说明是带有Header的
-    public static final int TYPE_FOOTER = 1;  //说明是带有Footer的
-    public static final int TYPE_NORMAL = 2;  //说明是不带有header和footer的
+    private static final int TYPE_HEADER = 0;  //说明是带有Header的
+    private static final int TYPE_FOOTER = 1;  //说明是带有Footer的
+    private static final int TYPE_NORMAL = 2;  //说明是不带有header和footer的
 
     private Context mContext;
     private List<CityEntity> mList;
@@ -120,10 +120,10 @@ public class AddCityAdapter extends RecyclerView.Adapter<AddCityAdapter.AddCityV
         mOnItemClickListener = listener;
     }
 
-    public class AddCityViewHolder extends RecyclerView.ViewHolder {
+    class AddCityViewHolder extends RecyclerView.ViewHolder {
         TextView nameTv;
 
-        public AddCityViewHolder(View view) {
+        AddCityViewHolder(View view) {
             super(view);
             //如果是headerview或者是footerview,直接返回
             if (itemView == mHeaderView) {
@@ -132,7 +132,7 @@ public class AddCityAdapter extends RecyclerView.Adapter<AddCityAdapter.AddCityV
             if (itemView == mFooterView) {
                 return;
             }
-            nameTv = (TextView) view.findViewById(R.id.tv);
+            nameTv = view.findViewById(R.id.tv);
         }
     }
 }
