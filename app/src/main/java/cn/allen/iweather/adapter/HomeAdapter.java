@@ -60,6 +60,24 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             mFooterView = view;
         } else {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_home, parent, false);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnItemClickListener != null) {
+                        mOnItemClickListener.onClick(v, (int) v.getTag());
+                    }
+                }
+            });
+            view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (mOnItemLongClickListener != null) {
+                        mOnItemLongClickListener.onLongClick(v, (int) v.getTag());
+                        return true;
+                    }
+                    return false;
+                }
+            });
         }
         return new HomeViewHolder(view);
     }
@@ -70,8 +88,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             WeatherNowEntity entity;
             if (mHeaderRes == INVALID_ID) {
                 entity = mList.get(position);
+                holder.itemView.setTag(position);
             } else {
                 entity = mList.get(position - 1);
+                holder.itemView.setTag(position - 1);
             }
             if (entity.getLocation() != null) {
                 holder.name.setText(entity.getLocation().getName());
@@ -138,6 +158,26 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                 return TYPE_NORMAL;
             }
         }
+    }
+
+    private OnItemClickListener mOnItemClickListener;
+
+    public interface OnItemClickListener {
+        void onClick(View v, int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mOnItemClickListener = listener;
+    }
+
+    private OnItemLongClickListener mOnItemLongClickListener;
+
+    public interface OnItemLongClickListener {
+        void onLongClick(View v, int position);
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener listener) {
+        mOnItemLongClickListener = listener;
     }
 
     class HomeViewHolder extends RecyclerView.ViewHolder {

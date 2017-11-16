@@ -3,10 +3,12 @@ package cn.allen.iweather.ui;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +27,7 @@ import cn.allen.iweather.R;
 import cn.allen.iweather.adapter.HomeAdapter;
 import cn.allen.iweather.lifecycle.MainObserver;
 import cn.allen.iweather.persistence.entity.FavoriteEntity;
+import cn.allen.iweather.utils.ToastUtils;
 import cn.allen.iweather.webservice.ApiResponse;
 import cn.allen.iweather.webservice.entity.BaseWrapperEntity;
 import cn.allen.iweather.webservice.entity.LocationEntity;
@@ -72,7 +75,30 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
             }
         });
         mAdapter = new HomeAdapter(this, mList);
-        mAdapter.setFooterView(R.layout.item_header);
+        mAdapter.setFooterView(R.layout.item_footer);
+        mAdapter.setOnItemClickListener(new HomeAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(View v, int position) {
+                // TODO: 2017/11/16 进入详情
+            }
+        });
+        mAdapter.setOnItemLongClickListener(new HomeAdapter.OnItemLongClickListener() {
+            @Override
+            public void onLongClick(View v, int position) {
+                final WeatherNowEntity nowEntity = mList.get(position);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.dialog_style);
+                builder.setTitle(R.string.delete_favo_title);
+                builder.setMessage(v.getContext().getString(R.string.delete_favo_msg, nowEntity.getLocation().getName()));
+                builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mViewModel.deleteFavorite(nowEntity.getLocation().getId());
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, null);
+                builder.show();
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mAdapter);
 

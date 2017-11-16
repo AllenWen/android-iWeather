@@ -25,12 +25,21 @@ public class MainViewModel extends ViewModel {
     public MainViewModel() {
     }
 
-    public LiveData<List<FavoriteEntity>> loadFavorites(){
-        return  FavoriteRepository.getInstance().loadFavorites();
+    public LiveData<List<FavoriteEntity>> loadFavorites() {
+        return FavoriteRepository.getInstance().loadFavorites();
     }
 
-    public LiveData<ApiResponse<BaseWrapperEntity<WeatherNowEntity>>> now(String location){
+    public LiveData<ApiResponse<BaseWrapperEntity<WeatherNowEntity>>> now(String location) {
         return WeatherRepository.getInstance().now(Configs.KEY, location, Configs.LANG, Configs.UNIT);
+    }
+
+    public void deleteFavorite(final String id) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FavoriteRepository.getInstance().deleteFavorite(id);
+            }
+        }).start();
     }
 
 }

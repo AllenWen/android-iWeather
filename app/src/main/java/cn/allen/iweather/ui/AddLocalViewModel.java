@@ -23,8 +23,13 @@ public class AddLocalViewModel extends ViewModel {
         return CityRepository.getInstance().loadCitiesByName(name);
     }
 
-    public void insertFavorite(FavoriteEntity favoriteEntity) {
-        FavoriteRepository.getInstance().insertFavorite(favoriteEntity);
+    public void insertFavorite(final FavoriteEntity favoriteEntity) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FavoriteRepository.getInstance().insertFavorite(favoriteEntity);
+            }
+        }).start();
     }
 
 }

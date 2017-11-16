@@ -29,6 +29,7 @@ import cn.allen.iweather.adapter.CityAdapter;
 import cn.allen.iweather.lifecycle.AddLocalObserver;
 import cn.allen.iweather.persistence.entity.CityEntity;
 import cn.allen.iweather.persistence.entity.FavoriteEntity;
+import cn.allen.iweather.utils.ToastUtils;
 import cn.allen.iweather.webservice.entity.LocationEntity;
 
 /**
@@ -69,12 +70,7 @@ public class AddLocalActivity extends AppCompatActivity implements LifecycleOwne
             public void onItemClick(View v, ImageView favo, int position) {
                 LocationEntity entity = mList.get(position);
                 final FavoriteEntity favoriteEntity = new FavoriteEntity(entity.getId(), entity.getName(), entity.getPath());
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mViewModel.insertFavorite(favoriteEntity);
-                    }
-                }).start();
+                mViewModel.insertFavorite(favoriteEntity);
                 entity.setFavorite(true);
                 favo.setSelected(true);
             }
@@ -120,7 +116,7 @@ public class AddLocalActivity extends AppCompatActivity implements LifecycleOwne
                         mList.add(entity);
                     }
                 } else {
-                    Toast.makeText(AddLocalActivity.this, R.string.search_city_failed, Toast.LENGTH_SHORT).show();
+                    ToastUtils.show(AddLocalActivity.this, R.string.search_city_failed);
                 }
                 hideLoading();
                 mAdapter.notifyDataSetChanged();

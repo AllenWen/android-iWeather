@@ -2,6 +2,7 @@ package cn.allen.iweather.persistence.dao;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
@@ -37,4 +38,12 @@ public interface FavoriteDao {
      */
     @Query("SELECT * FROM favorite")
     public LiveData<List<FavoriteEntity>> loadFavorites();
+
+    /**
+     * 删除城市
+     *
+     * @param id
+     */
+    @Query("DELETE FROM favorite WHERE id=:id")
+    public void deleteFavorite(String id);
 }

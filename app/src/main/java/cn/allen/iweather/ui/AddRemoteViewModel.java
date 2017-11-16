@@ -24,7 +24,12 @@ public class AddRemoteViewModel extends ViewModel {
         return CityRepository.getInstance().searchCity(Configs.KEY, q, Configs.LANG, Configs.LIMIT, Configs.OFFSET);
     }
 
-    public void insertFavorite(FavoriteEntity favoriteEntity) {
-        FavoriteRepository.getInstance().insertFavorite(favoriteEntity);
+    public void insertFavorite(final FavoriteEntity favoriteEntity) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FavoriteRepository.getInstance().insertFavorite(favoriteEntity);
+            }
+        }).start();
     }
 }

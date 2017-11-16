@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +27,10 @@ import cn.allen.iweather.R;
 import cn.allen.iweather.adapter.CityAdapter;
 import cn.allen.iweather.lifecycle.AddRemoteObserver;
 import cn.allen.iweather.persistence.entity.FavoriteEntity;
+import cn.allen.iweather.utils.ToastUtils;
 import cn.allen.iweather.webservice.ApiResponse;
 import cn.allen.iweather.webservice.entity.BaseWrapperEntity;
 import cn.allen.iweather.webservice.entity.LocationEntity;
-import cn.allen.iweather.webservice.entity.WeatherNowEntity;
 
 /**
  * Author: AllenWen
@@ -69,12 +68,7 @@ public class AddRemoteActivity extends AppCompatActivity implements LifecycleOwn
             public void onItemClick(View v, ImageView favo, int position) {
                 LocationEntity entity = mList.get(position);
                 final FavoriteEntity favoriteEntity = new FavoriteEntity(entity.getId(), entity.getName(), entity.getPath());
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mViewModel.insertFavorite(favoriteEntity);
-                    }
-                }).start();
+                mViewModel.insertFavorite(favoriteEntity);
                 entity.setFavorite(true);
                 favo.setSelected(true);
             }
@@ -121,13 +115,13 @@ public class AddRemoteActivity extends AppCompatActivity implements LifecycleOwn
                         if (results != null && results.size() > 0) {
                             mList.addAll(results);
                         } else {
-                            Toast.makeText(AddRemoteActivity.this, R.string.search_city_failed, Toast.LENGTH_SHORT).show();
+                            ToastUtils.show(AddRemoteActivity.this, R.string.search_city_failed);
                         }
                     } else {
-                        Toast.makeText(AddRemoteActivity.this, R.string.search_city_failed, Toast.LENGTH_SHORT).show();
+                        ToastUtils.show(AddRemoteActivity.this, R.string.search_city_failed);
                     }
                 } else {
-                    Toast.makeText(AddRemoteActivity.this, R.string.search_city_failed, Toast.LENGTH_SHORT).show();
+                    ToastUtils.show(AddRemoteActivity.this, R.string.search_city_failed);
                 }
                 hideLoading();
                 mAdapter.notifyDataSetChanged();

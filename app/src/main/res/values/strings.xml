@@ -11,6 +11,10 @@
     <string name="default_temperature">--℃</string>
     <string name="default_time">--:--</string>
     <string name="update_format">更新于%s</string>
+    <string name="delete_favo_title">注意</string>
+    <string name="delete_favo_msg">您要删除%s这个城市吗？</string>
+    <string name="delete">删除</string>
+    <string name="cancel">取消</string>
 
     <!-- add_local !-->
     <string name="local_add_city">本地添加</string>

@@ -31,4 +31,8 @@ public class FavoriteRepository {
     public LiveData<List<FavoriteEntity>> loadFavorites() {
         return AppDatabase.getInstance().favoriteDao().loadFavorites();
     }
+
+    public void deleteFavorite(String id) {
+        AppDatabase.getInstance().favoriteDao().deleteFavorite(id);
+    }
 }
