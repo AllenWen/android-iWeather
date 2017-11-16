@@ -12,6 +12,7 @@
     <string name="cancel">取消</string>
 
     <!-- region !-->
+    <string name="search_province_failed">抱歉，未查询到省份</string>
 
     <!--search!-->
     <string name="search">搜索</string>

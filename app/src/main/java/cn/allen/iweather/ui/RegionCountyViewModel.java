@@ -11,20 +11,13 @@ import cn.allen.iweather.repository.CityRepository;
 import cn.allen.iweather.repository.FavoriteRepository;
 
 /**
- * Author: AllenWen
- * CreateTime: 2017/11/16
- * Email: wenxueguo@medlinker.com
- * Description:
+ * Created by allen on 2017/11/16.
  */
 
-public class RegionCityViewModel extends ViewModel {
+public class RegionCountyViewModel extends ViewModel {
 
-    public LiveData<List<String>> getCities(String province) {
-        return CityRepository.getInstance().getCities(province);
-    }
-
-    public LiveData<List<CityEntity>> getMunicipalCounties(String province) {
-        return CityRepository.getInstance().getMunicipalCounties(province);
+    public LiveData<List<CityEntity>> getCounties(String city) {
+        return CityRepository.getInstance().getCounties(city);
     }
 
     public void insertFavorite(final FavoriteEntity favoriteEntity) {
@@ -35,5 +28,4 @@ public class RegionCityViewModel extends ViewModel {
             }
         }).start();
     }
-
 }

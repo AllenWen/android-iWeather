@@ -20,6 +20,7 @@
         <activity android:name=".ui.SearchActivity" />
         <activity android:name=".ui.RegionActivity" />
         <activity android:name=".ui.RegionCityActivity" />
+        <activity android:name=".ui.RegionCountyActivity" />
 
     </application>
 

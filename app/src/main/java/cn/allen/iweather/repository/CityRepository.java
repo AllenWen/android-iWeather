@@ -41,8 +41,8 @@ public class CityRepository {
         return AppDatabase.getInstance().cityDao().getCounties(city_zh);
     }
 
-    public LiveData<List<CityEntity>> findCity(String name) {
-        return AppDatabase.getInstance().cityDao().findCity(name);
+    public LiveData<List<CityEntity>> getMunicipalCounties(String province_zh) {
+        return AppDatabase.getInstance().cityDao().getMunicipalCounties(province_zh);
     }
 
     public LiveData<ApiResponse<BaseWrapperEntity<LocationEntity>>> searchCity(String key, String q, String language, int limit, int offset) {

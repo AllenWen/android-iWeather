@@ -17,21 +17,8 @@ import cn.allen.iweather.utils.Configs;
 
 public class RegionViewModel extends ViewModel {
 
-    public void insertFavorite(final FavoriteEntity favoriteEntity) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                FavoriteRepository.getInstance().insertFavorite(favoriteEntity);
-            }
-        }).start();
-    }
-
     public LiveData<List<String>> getProvinces() {
         return CityRepository.getInstance().getProvinces(Configs.COUNTRY);
-    }
-
-    public LiveData<List<CityEntity>> getCounties(String city_zh) {
-        return CityRepository.getInstance().getCounties(city_zh);
     }
 
 }

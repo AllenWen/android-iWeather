@@ -37,9 +37,15 @@ public interface CityDao {
     LiveData<List<String>> getCities(String province_zh);
 
     /**
-     * 县
+     * 县(地级市下)
      */
     @Query("SELECT * FROM city WHERE city_zh = :city_zh")
     LiveData<List<CityEntity>> getCounties(String city_zh);
+
+    /**
+     * 县(直辖市下)
+     */
+    @Query("SELECT * FROM city WHERE province_zh = :province_zh")
+    LiveData<List<CityEntity>> getMunicipalCounties(String province_zh);
 
 }
