@@ -100,9 +100,7 @@ public class SearchActivity extends AppCompatActivity implements LifecycleOwner 
     }
 
     private void searchCity(String query) {
-        if (TextUtils.isEmpty(query.trim())) {
-            return;
-        }
+        if (TextUtils.isEmpty(query.trim())) return;
         showLoading();
         mViewModel.searchCity(query).observe(this, new Observer<ApiResponse<BaseWrapperEntity<LocationEntity>>>() {
             @Override
@@ -131,10 +129,8 @@ public class SearchActivity extends AppCompatActivity implements LifecycleOwner 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
+        if (item.getItemId() == android.R.id.home) {
+            finish();
         }
         return true;
     }

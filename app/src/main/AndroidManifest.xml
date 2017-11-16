@@ -17,8 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.AddLocalActivity" />
         <activity android:name=".ui.SearchActivity" />
+        <activity android:name=".ui.RegionActivity" />
+        <activity android:name=".ui.RegionCityActivity" />
 
     </application>
 

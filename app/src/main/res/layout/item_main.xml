@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:text="@string/default_name"
             android:textColor="@color/colorPrimaryText"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/addr"
@@ -50,7 +50,7 @@
             android:maxLines="1"
             android:text="@string/default_text"
             android:textColor="@color/colorPrimaryText"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/temperature"

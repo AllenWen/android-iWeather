@@ -22,9 +22,6 @@ import cn.allen.iweather.webservice.entity.WeatherNowEntity;
 
 public class MainViewModel extends ViewModel {
 
-    public MainViewModel() {
-    }
-
     public LiveData<List<FavoriteEntity>> loadFavorites() {
         return FavoriteRepository.getInstance().loadFavorites();
     }

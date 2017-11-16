@@ -35,7 +35,7 @@ public class FAMBehavior extends CoordinatorLayout.Behavior<FloatingActionsMenu>
             // User scrolled down and the FAB is currently visible -> hide the FAB
             child.collapse();
             animateOut(child);
-        } else if (dyConsumed < 0 && child.getVisibility() != View.VISIBLE) {
+        } else if (dyConsumed <= 0 && child.getVisibility() != View.VISIBLE) {
             // User scrolled up and the FAB is currently not visible -> show the FAB
             animateIn(child);
         }

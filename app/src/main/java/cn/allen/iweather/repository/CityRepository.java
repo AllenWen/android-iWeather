@@ -29,36 +29,20 @@ public class CityRepository {
         return mInstance;
     }
 
-    public void insertCity(CityEntity cityEntity) {
-        AppDatabase.getInstance().cityDao().insertCity(cityEntity);
-    }
-
-    public LiveData<List<CityEntity>> loadCitiesByName(String name) {
-        return AppDatabase.getInstance().cityDao().loadCitiesByName(name);
-    }
-
-    public LiveData<List<CityEntity>> loadAllCities() {
-        return AppDatabase.getInstance().cityDao().loadAllCities();
-    }
-
-    public LiveData<List<CityEntity>> loadCitiesByCountry(String country_name) {
-        return AppDatabase.getInstance().cityDao().loadCitiesByCountry(country_name);
-    }
-
-    public LiveData<List<CityEntity>> loadCitiesByProvince(String province_zh) {
-        return AppDatabase.getInstance().cityDao().loadCitiesByProvince(province_zh);
-    }
-
-    public LiveData<List<CityEntity>> loadCitiesByCity(String city_zh) {
-        return AppDatabase.getInstance().cityDao().loadCitiesByCity(city_zh);
-    }
-
     public LiveData<List<String>> getProvinces(String country_name) {
         return AppDatabase.getInstance().cityDao().getProvinces(country_name);
     }
 
     public LiveData<List<String>> getCities(String province_zh) {
         return AppDatabase.getInstance().cityDao().getCities(province_zh);
+    }
+
+    public LiveData<List<CityEntity>> getCounties(String city_zh) {
+        return AppDatabase.getInstance().cityDao().getCounties(city_zh);
+    }
+
+    public LiveData<List<CityEntity>> findCity(String name) {
+        return AppDatabase.getInstance().cityDao().findCity(name);
     }
 
     public LiveData<ApiResponse<BaseWrapperEntity<LocationEntity>>> searchCity(String key, String q, String language, int limit, int offset) {

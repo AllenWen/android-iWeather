@@ -25,7 +25,7 @@ public class CityEntity {
     public String city_zh;//地级
     public String city_en;
 
-    public CityEntity(String id, String name_zh, String name_en, String country_name, String country_code, String province_zh, String province_en, String city_zh, String city_en) {
+    public CityEntity(@NonNull String id, String name_zh, String name_en, String country_name, String country_code, String province_zh, String province_en, String city_zh, String city_en) {
         this.id = id;
         this.name_zh = name_zh;
         this.name_en = name_en;

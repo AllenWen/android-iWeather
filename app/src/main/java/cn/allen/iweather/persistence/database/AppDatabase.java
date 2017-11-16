@@ -9,6 +9,7 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.migration.Migration;
 import android.content.res.AssetManager;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.File;
@@ -59,16 +60,13 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static final Migration MIGRATION_1_2 = new Migration(1, 2) {
         @Override
-        public void migrate(SupportSQLiteDatabase database) {
-//            database.execSQL("CREATE TABLE `favorite` (`id` TEXT, `name_zh` TEXT, `name_en` TEXT, `country_name` TEXT, `country_code` TEXT, "
-//                    + "`province_zh` TEXT, `province_en` TEXT, `city_zh` TEXT, `city_en` TEXT, PRIMARY KEY(`id`))");
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
         }
     };
 
     private static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
-        public void migrate(SupportSQLiteDatabase database) {
-
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
         }
     };
 

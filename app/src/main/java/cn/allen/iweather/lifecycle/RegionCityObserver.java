@@ -3,19 +3,23 @@ package cn.allen.iweather.lifecycle;
 import android.content.Context;
 
 /**
- * Created by allen on 2017/11/12.
+ * Author: AllenWen
+ * CreateTime: 2017/11/16
+ * Email: wenxueguo@medlinker.com
+ * Description:
  */
 
-public class AddLocalObserver implements BaseLifecycleObserver {
+public class RegionCityObserver implements BaseLifecycleObserver {
 
     private Context mContext;
 
-    public AddLocalObserver(Context context) {
+    public RegionCityObserver(Context context) {
         mContext = context;
     }
 
     @Override
     public void onCreate() {
+
     }
 
     @Override

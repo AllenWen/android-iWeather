@@ -40,8 +40,6 @@ import cn.allen.iweather.webservice.entity.WeatherNowEntity;
  */
 
 public class MainActivity extends AppCompatActivity implements LifecycleOwner {
-    private static final String TAG = MainActivity.class.getSimpleName();
-
     @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.recyclerview)
@@ -50,8 +48,8 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
     FloatingActionsMenu fam;
     @BindView(R.id.fab_search)
     FloatingActionButton fab_search;
-    @BindView(R.id.fab_local)
-    FloatingActionButton fab_local;
+    @BindView(R.id.fab_region)
+    FloatingActionButton fab_region;
 
     private MainViewModel mViewModel;
     private HomeAdapter mAdapter;
@@ -86,8 +84,8 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
             public void onLongClick(View v, int position) {
                 final WeatherNowEntity nowEntity = mList.get(position);
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.dialog_style);
-                builder.setTitle(R.string.delete_favo_title);
-                builder.setMessage(v.getContext().getString(R.string.delete_favo_msg, nowEntity.getLocation().getName()));
+                builder.setTitle(R.string.delete_title);
+                builder.setMessage(v.getContext().getString(R.string.delete_msg, nowEntity.getLocation().getName()));
                 builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -161,14 +159,14 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
         }
     }
 
-    @OnClick({R.id.fab_search, R.id.fab_local})
+    @OnClick({R.id.fab_search, R.id.fab_region})
     public void onClick(View view) {
         fam.collapse();
         if (view.getId() == R.id.fab_search) {
             Intent intent = new Intent(this, SearchActivity.class);
             startActivity(intent);
-        } else if (view.getId() == R.id.fab_local) {
-            Intent intent = new Intent(this, AddLocalActivity.class);
+        } else if (view.getId() == R.id.fab_region) {
+            Intent intent = new Intent(this, RegionActivity.class);
             startActivity(intent);
         }
     }

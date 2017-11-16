@@ -58,14 +58,14 @@
             fab:fab_title="@string/by_search" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_local"
+            android:id="@+id/fab_region"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/colorAccent"
             fab:fab_colorPressed="@color/colorDivider"
             fab:fab_icon="@mipmap/ic_action_category"
             fab:fab_size="normal"
-            fab:fab_title="@string/by_category" />
+            fab:fab_title="@string/by_region" />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 

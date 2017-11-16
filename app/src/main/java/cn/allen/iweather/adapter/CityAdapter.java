@@ -21,7 +21,7 @@ import cn.allen.iweather.webservice.entity.LocationEntity;
  * Description:
  */
 
-public class CityAdapter extends RecyclerView.Adapter<CityAdapter.AddCityViewHolder> {
+public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder> {
     private Context mContext;
     private List<LocationEntity> mList;
 
@@ -31,9 +31,9 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.AddCityViewHol
     }
 
     @Override
-    public AddCityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_city, parent, false);
-        final AddCityViewHolder viewHolder = new AddCityViewHolder(view);
+        final CityViewHolder viewHolder = new CityViewHolder(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,7 +46,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.AddCityViewHol
     }
 
     @Override
-    public void onBindViewHolder(AddCityViewHolder holder, int position) {
+    public void onBindViewHolder(CityViewHolder holder, int position) {
         LocationEntity locationEntity = mList.get(position);
         holder.name.setText(locationEntity.getName());
         holder.addr.setText(locationEntity.getPath());
@@ -54,7 +54,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.AddCityViewHol
             holder.timezone.setVisibility(View.GONE);
         } else {
             holder.timezone.setVisibility(View.VISIBLE);
-            holder.timezone.setText(mContext.getString(R.string.timezone_format, locationEntity.getTimezone_offset()));
+            holder.timezone.setText(mContext.getString(R.string.format_timezone, locationEntity.getTimezone_offset()));
         }
         holder.favo.setSelected(locationEntity.isFavorite());
         holder.itemView.setTag(position);
@@ -75,13 +75,13 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.AddCityViewHol
         mOnItemClickListener = listener;
     }
 
-    class AddCityViewHolder extends RecyclerView.ViewHolder {
+    class CityViewHolder extends RecyclerView.ViewHolder {
         TextView name;
         TextView addr;
         TextView timezone;
         ImageView favo;
 
-        AddCityViewHolder(View view) {
+        CityViewHolder(View view) {
             super(view);
             name = view.findViewById(R.id.name);
             addr = view.findViewById(R.id.addr);

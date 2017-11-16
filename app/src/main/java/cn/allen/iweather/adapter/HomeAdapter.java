@@ -59,7 +59,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             view = LayoutInflater.from(mContext).inflate(mFooterRes, parent, false);
             mFooterView = view;
         } else {
-            view = LayoutInflater.from(mContext).inflate(R.layout.item_home, parent, false);
+            view = LayoutInflater.from(mContext).inflate(R.layout.item_main, parent, false);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -113,9 +113,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             }
             if (!TextUtils.isEmpty(entity.getLast_update())) {
                 String last_update = entity.getLast_update();
-                holder.time.setText(mContext.getString(R.string.update_format, last_update.substring(11, 16)));
+                holder.time.setText(mContext.getString(R.string.format_update, last_update.substring(11, 16)));
             } else {
-                holder.time.setText(mContext.getString(R.string.update_format, mContext.getString(R.string.default_time)));
+                holder.time.setText(mContext.getString(R.string.format_update, mContext.getString(R.string.default_time)));
             }
         }
     }
