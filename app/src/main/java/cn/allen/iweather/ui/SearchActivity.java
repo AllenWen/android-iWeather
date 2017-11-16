@@ -25,7 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.allen.iweather.R;
 import cn.allen.iweather.adapter.CityAdapter;
-import cn.allen.iweather.lifecycle.AddRemoteObserver;
+import cn.allen.iweather.lifecycle.SearchObserver;
 import cn.allen.iweather.persistence.entity.FavoriteEntity;
 import cn.allen.iweather.utils.ToastUtils;
 import cn.allen.iweather.webservice.ApiResponse;
@@ -39,7 +39,7 @@ import cn.allen.iweather.webservice.entity.LocationEntity;
  * Description:
  */
 
-public class AddRemoteActivity extends AppCompatActivity implements LifecycleOwner {
+public class SearchActivity extends AppCompatActivity implements LifecycleOwner {
     @BindView(R.id.appbar)
     AppBarLayout appBarLayout;
     @BindView(R.id.toolbar)
@@ -49,18 +49,18 @@ public class AddRemoteActivity extends AppCompatActivity implements LifecycleOwn
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
 
-    private AddRemoteViewModel mViewModel;
+    private SearchViewModel mViewModel;
     private CityAdapter mAdapter;
     private List<LocationEntity> mList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_remote);
+        setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
-        getLifecycle().addObserver(new AddRemoteObserver());
+        getLifecycle().addObserver(new SearchObserver());
         setSupportActionBar(toolbar);
-        mViewModel = ViewModelProviders.of(this).get(AddRemoteViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
 
         mAdapter = new CityAdapter(this, mList);
         mAdapter.setOnItemClickListener(new CityAdapter.OnItemClickListener() {
@@ -79,10 +79,10 @@ public class AddRemoteActivity extends AppCompatActivity implements LifecycleOwn
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_add_local, menu);
+        getMenuInflater().inflate(R.menu.menu_search, menu);
         MenuItem item = menu.findItem(R.id.search_view);
         SearchView searchView = (SearchView) item.getActionView();
-        searchView.setQueryHint(getString(R.string.remote_search_hint));
+        searchView.setQueryHint(getString(R.string.search_hint));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -115,13 +115,13 @@ public class AddRemoteActivity extends AppCompatActivity implements LifecycleOwn
                         if (results != null && results.size() > 0) {
                             mList.addAll(results);
                         } else {
-                            ToastUtils.show(AddRemoteActivity.this, R.string.search_city_failed);
+                            ToastUtils.show(SearchActivity.this, R.string.search_city_failed);
                         }
                     } else {
-                        ToastUtils.show(AddRemoteActivity.this, R.string.search_city_failed);
+                        ToastUtils.show(SearchActivity.this, R.string.search_city_failed);
                     }
                 } else {
-                    ToastUtils.show(AddRemoteActivity.this, R.string.search_city_failed);
+                    ToastUtils.show(SearchActivity.this, R.string.search_city_failed);
                 }
                 hideLoading();
                 mAdapter.notifyDataSetChanged();

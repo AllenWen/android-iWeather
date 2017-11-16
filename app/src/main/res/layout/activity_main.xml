@@ -63,9 +63,9 @@
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/colorAccent"
             fab:fab_colorPressed="@color/colorDivider"
-            fab:fab_icon="@mipmap/ic_action_add"
+            fab:fab_icon="@mipmap/ic_action_category"
             fab:fab_size="normal"
-            fab:fab_title="@string/by_local" />
+            fab:fab_title="@string/by_category" />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 

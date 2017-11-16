@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +80,7 @@ public class AddLocalActivity extends AppCompatActivity implements LifecycleOwne
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_add_local, menu);
+        getMenuInflater().inflate(R.menu.menu_search, menu);
         MenuItem item = menu.findItem(R.id.search_view);
         SearchView searchView = (SearchView) item.getActionView();
         searchView.setQueryHint(getString(R.string.local_search_hint));

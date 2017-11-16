@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.AddLocalActivity" />
-        <activity android:name=".ui.AddRemoteActivity" />
+        <activity android:name=".ui.SearchActivity" />
 
     </application>
 

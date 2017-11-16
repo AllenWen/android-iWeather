@@ -18,7 +18,7 @@ import cn.allen.iweather.webservice.entity.LocationEntity;
  * Description:
  */
 
-public class AddRemoteViewModel extends ViewModel {
+public class SearchViewModel extends ViewModel {
 
     public LiveData<ApiResponse<BaseWrapperEntity<LocationEntity>>> searchCity(String q) {
         return CityRepository.getInstance().searchCity(Configs.KEY, q, Configs.LANG, Configs.LIMIT, Configs.OFFSET);

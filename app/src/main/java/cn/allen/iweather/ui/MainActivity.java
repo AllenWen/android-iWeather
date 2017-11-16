@@ -27,7 +27,6 @@ import cn.allen.iweather.R;
 import cn.allen.iweather.adapter.HomeAdapter;
 import cn.allen.iweather.lifecycle.MainObserver;
 import cn.allen.iweather.persistence.entity.FavoriteEntity;
-import cn.allen.iweather.utils.ToastUtils;
 import cn.allen.iweather.webservice.ApiResponse;
 import cn.allen.iweather.webservice.entity.BaseWrapperEntity;
 import cn.allen.iweather.webservice.entity.LocationEntity;
@@ -166,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
     public void onClick(View view) {
         fam.collapse();
         if (view.getId() == R.id.fab_search) {
-            Intent intent = new Intent(this, AddRemoteActivity.class);
+            Intent intent = new Intent(this, SearchActivity.class);
             startActivity(intent);
         } else if (view.getId() == R.id.fab_local) {
             Intent intent = new Intent(this, AddLocalActivity.class);

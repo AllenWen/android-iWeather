@@ -5,7 +5,7 @@
     <string name="home">首页</string>
     <string name="hint_footer">点击右下角按钮，添加关注的城市</string>
     <string name="by_search">网络搜索</string>
-    <string name="by_local">本地添加</string>
+    <string name="by_category">分类查找</string>
     <string name="default_name">- -</string>
     <string name="default_text">- - - -</string>
     <string name="default_temperature">--℃</string>
@@ -16,16 +16,16 @@
     <string name="delete">删除</string>
     <string name="cancel">取消</string>
 
-    <!-- add_local !-->
+    <!-- category !-->
     <string name="local_add_city">本地添加</string>
     <string name="search">搜索</string>
     <string name="back">返回</string>
     <string name="local_search_hint">请输入城市名(仅中文)</string>
     <string name="timezone_format">时区：%s</string>
 
-    <!-- add_remote !-->
+    <!--search!-->
     <string name="search_city">搜索城市</string>
-    <string name="remote_search_hint">请输入城市名(中文、拼音等)</string>
+    <string name="search_hint">请输入城市名(中文、拼音等)</string>
     <string name="search_city_failed">抱歉，未查询到城市</string>
 
 </resources>

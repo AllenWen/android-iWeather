@@ -7,7 +7,7 @@ package cn.allen.iweather.lifecycle;
  * Description:
  */
 
-public class AddRemoteObserver implements BaseLifecycleObserver {
+public class SearchObserver implements BaseLifecycleObserver {
 
     @Override
     public void onCreate() {
