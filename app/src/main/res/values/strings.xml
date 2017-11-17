@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">天气</string>
+    <string name="app_name">极简天气</string>
 
     <!-- main !-->
-    <string name="home">首页</string>
+    <string name="home">极简天气</string>
     <string name="format_header">%s, 今天是%d年%d月%d日, %s</string>
     <string name="morning">上午好</string>
     <string name="noon">中午好</string>
