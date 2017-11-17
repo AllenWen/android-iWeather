@@ -19,12 +19,6 @@ import cn.allen.iweather.persistence.entity.CityEntity;
 public interface CityDao {
 
     /**
-     * 查询城市
-     */
-    @Query("SELECT * FROM city WHERE name_zh = :name_zh")
-    LiveData<List<CityEntity>> findCity(String name_zh);
-
-    /**
      * 省
      */
     @Query("SELECT DISTINCT province_zh FROM city WHERE country_name = :country_name")

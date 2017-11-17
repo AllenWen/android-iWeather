@@ -21,6 +21,7 @@
         <activity android:name=".ui.RegionActivity" />
         <activity android:name=".ui.RegionCityActivity" />
         <activity android:name=".ui.RegionCountyActivity" />
+        <activity android:name=".ui.DetailActivity" />
 
     </application>
 

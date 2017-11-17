@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Calendar;
 import java.util.List;
 
 import cn.allen.iweather.R;
@@ -84,7 +85,40 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
     @Override
     public void onBindViewHolder(HomeViewHolder holder, int position) {
-        if (getItemViewType(position) == TYPE_NORMAL) {
+        int viewType = getItemViewType(position);
+        if (viewType == TYPE_HEADER) {
+            Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+            String week = "";
+            switch (dayOfWeek) {
+                case 1:
+                    week = mContext.getString(R.string.sunday);
+                    break;
+                case 2:
+                    week = mContext.getString(R.string.monday);
+                    break;
+                case 3:
+                    week = mContext.getString(R.string.tuesday);
+                    break;
+                case 4:
+                    week = mContext.getString(R.string.wednesday);
+                    break;
+                case 5:
+                    week = mContext.getString(R.string.thursday);
+                    break;
+                case 6:
+                    week = mContext.getString(R.string.friday);
+                    break;
+                case 7:
+                    week = mContext.getString(R.string.saturday);
+                    break;
+            }
+            String noon = calendar.get(Calendar.HOUR_OF_DAY) < 12 ? mContext.getString(R.string.forenoon) : mContext.getString(R.string.afternoon);
+            holder.date.setText(mContext.getString(R.string.format_header, noon, year, month, day, week));
+        } else if (viewType == TYPE_NORMAL) {
             WeatherNowEntity entity;
             if (mHeaderRes == INVALID_ID) {
                 entity = mList.get(position);
@@ -188,9 +222,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         TextView time;
         ImageView image;
 
+        TextView date;
+
         HomeViewHolder(View view) {
             super(view);
             if (itemView == mHeaderView) {
+                date = view.findViewById(R.id.date);
                 return;
             }
             if (itemView == mFooterView) {

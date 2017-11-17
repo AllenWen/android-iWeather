@@ -3,7 +3,17 @@
 
     <!-- main !-->
     <string name="home">首页</string>
-    <string name="footer_hint">点击右下角按钮，添加关注的城市</string>
+    <string name="format_header">%s, 今天是%d年%d月%d日, %s</string>
+    <string name="forenoon">上午好</string>
+    <string name="afternoon">下午好</string>
+    <string name="monday">周一</string>
+    <string name="tuesday">周二</string>
+    <string name="wednesday">周三</string>
+    <string name="thursday">周四</string>
+    <string name="friday">周五</string>
+    <string name="saturday">周六</string>
+    <string name="sunday">周日</string>
+    <string name="footer_hint">长按可删除, 点击右下角按钮添加城市</string>
     <string name="by_search">网络查找</string>
     <string name="by_region">区域查找</string>
     <string name="delete_title">注意</string>
@@ -12,19 +22,30 @@
     <string name="cancel">取消</string>
 
     <!-- region !-->
-    <string name="search_province_failed">抱歉，未查询到省份</string>
+    <string name="search_province_failed">抱歉, 未查询到省份</string>
 
     <!--search!-->
     <string name="search">搜索</string>
     <string name="search_hint">请输入城市名(中文/拼音等)</string>
-    <string name="search_city_failed">抱歉，未查询到城市</string>
+    <string name="search_city_failed">抱歉, 未查询到城市</string>
+
+    <!-- detail !-->
+    <string name="detail_predict">详细预报</string>
+    <string name="car_wash">洗车指数</string>
+    <string name="dressing">穿衣建议</string>
+    <string name="flu">感冒几率</string>
+    <string name="sport">运动适宜度</string>
+    <string name="travel">旅游指数</string>
+    <string name="uv">紫外线强度</string>
+    <string name="get_life_failed">抱歉, 没有查到生活指数</string>
+    <string name="format_desc">%s，%d℃</string>
 
     <!-- adapter home !-->
     <string name="default_name">- -</string>
     <string name="default_text">- - - -</string>
     <string name="default_temperature">--℃</string>
     <string name="default_time">--:--</string>
-    <string name="format_update">更新于%s</string>
+    <string name="format_update">数据更新于%s</string>
 
     <!-- adapter city !-->
     <string name="format_timezone">时区：%s</string>

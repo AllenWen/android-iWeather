@@ -3,7 +3,9 @@ package cn.allen.iweather.webservice;
 import android.arch.lifecycle.LiveData;
 
 import cn.allen.iweather.webservice.entity.BaseWrapperEntity;
+import cn.allen.iweather.webservice.entity.LifeSuggestEntity;
 import cn.allen.iweather.webservice.entity.LocationEntity;
+import cn.allen.iweather.webservice.entity.WeatherDailyEntity;
 import cn.allen.iweather.webservice.entity.WeatherNowEntity;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -34,11 +36,11 @@ public interface Api {
      * 逐日天气预报和昨日天气
      */
     @GET("weather/daily.json")
-    void daily(@Query("key") String key, @Query("location") String location, @Query("language") String language, @Query("unit") String unit, @Query("start") int start, @Query("days") int days);
+    LiveData<ApiResponse<BaseWrapperEntity<WeatherDailyEntity>>> daily(@Query("key") String key, @Query("location") String location, @Query("language") String language, @Query("unit") String unit, @Query("start") int start, @Query("days") int days);
 
     /**
      * 生活指数
      */
     @GET("life/suggestion.json")
-    void life(@Query("key") String key, @Query("location") String location, @Query("language") String language);
+    LiveData<ApiResponse<BaseWrapperEntity<LifeSuggestEntity>>> life(@Query("key") String key, @Query("location") String location, @Query("language") String language);
 }

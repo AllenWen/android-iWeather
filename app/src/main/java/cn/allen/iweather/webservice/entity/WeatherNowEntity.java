@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
  * Description:
  */
 
-public class WeatherNowEntity extends BaseEntity {
+public class WeatherNowEntity extends BaseEntity implements Parcelable{
     @SerializedName("location")
     private LocationEntity location;
     @SerializedName("now")
@@ -94,7 +94,7 @@ public class WeatherNowEntity extends BaseEntity {
         }
     };
 
-    public class NowEntity implements Parcelable {
+    public static class NowEntity implements Parcelable {
         @SerializedName("text")
         private String text;//天气现象文字
         @SerializedName("code")
@@ -156,7 +156,7 @@ public class WeatherNowEntity extends BaseEntity {
             this.temperature = in.readInt();
         }
 
-        public final Creator<NowEntity> CREATOR = new Creator<NowEntity>() {
+        public static final Creator<NowEntity> CREATOR = new Creator<NowEntity>() {
             @Override
             public NowEntity createFromParcel(Parcel source) {
                 return new NowEntity(source);

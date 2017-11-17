@@ -12,4 +12,5 @@ public interface Configs {
     int OFFSET = 0;
     String COUNTRY = "中国";
     String KEY_PARENT = "parent";
+    String KEY_NOW = "now";
 }

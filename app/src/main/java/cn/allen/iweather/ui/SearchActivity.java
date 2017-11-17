@@ -36,7 +36,7 @@ import cn.allen.iweather.webservice.entity.LocationEntity;
  * Author: AllenWen
  * CreateTime: 2017/11/15
  * Email: wenxueguo@medlinker.com
- * Description:
+ * Description:搜索城市
  */
 
 public class SearchActivity extends AppCompatActivity implements LifecycleOwner {

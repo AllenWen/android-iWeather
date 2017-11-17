@@ -12,7 +12,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -27,6 +29,7 @@ import cn.allen.iweather.R;
 import cn.allen.iweather.adapter.HomeAdapter;
 import cn.allen.iweather.lifecycle.MainObserver;
 import cn.allen.iweather.persistence.entity.FavoriteEntity;
+import cn.allen.iweather.utils.Configs;
 import cn.allen.iweather.webservice.ApiResponse;
 import cn.allen.iweather.webservice.entity.BaseWrapperEntity;
 import cn.allen.iweather.webservice.entity.LocationEntity;
@@ -36,7 +39,7 @@ import cn.allen.iweather.webservice.entity.WeatherNowEntity;
  * Author: AllenWen
  * CreateTime: 2017/11/8
  * Email: wenxueguo@medlinker.com
- * Description:
+ * Description:首页
  */
 
 public class MainActivity extends AppCompatActivity implements LifecycleOwner {
@@ -72,11 +75,15 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
             }
         });
         mAdapter = new HomeAdapter(this, mList);
-        mAdapter.setFooterView(R.layout.item_footer);
+        mAdapter.setHeaderView(R.layout.item_header);
+//        mAdapter.setFooterView(R.layout.item_footer);
         mAdapter.setOnItemClickListener(new HomeAdapter.OnItemClickListener() {
             @Override
             public void onClick(View v, int position) {
-                // TODO: 2017/11/16 进入详情
+                WeatherNowEntity nowEntity = mList.get(position);
+                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                intent.putExtra(Configs.KEY_NOW, nowEntity);
+                startActivity(intent);
             }
         });
         mAdapter.setOnItemLongClickListener(new HomeAdapter.OnItemLongClickListener() {
@@ -98,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mAdapter);
-
         loadFavo();
     }
 
