@@ -4,26 +4,33 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.allen.iweather.R;
+import cn.allen.iweather.adapter.DailyAdapter;
 import cn.allen.iweather.lifecycle.DetailObserver;
 import cn.allen.iweather.utils.Configs;
 import cn.allen.iweather.utils.ToastUtils;
+import cn.allen.iweather.view.PathRecyclerView;
 import cn.allen.iweather.webservice.ApiResponse;
 import cn.allen.iweather.webservice.entity.BaseWrapperEntity;
 import cn.allen.iweather.webservice.entity.LifeSuggestEntity;
@@ -50,7 +57,7 @@ public class DetailActivity extends AppCompatActivity implements LifecycleOwner 
     @BindView(R.id.desc)
     TextView desc;
     @BindView(R.id.recyclerview)
-    RecyclerView recyclerview;
+    PathRecyclerView recyclerview;
     @BindView(R.id.car_wash)
     TextView car_wash;
     @BindView(R.id.dressing)
@@ -68,6 +75,10 @@ public class DetailActivity extends AppCompatActivity implements LifecycleOwner 
     private WeatherNowEntity mData;
     private LocationEntity mLocation;
     private int mUpdateCount;
+    private DailyAdapter mAdapter;
+    private List<WeatherDailyEntity.DailyEntity> mList = new ArrayList<>();
+    private List<Pair<Float, Float>> mHighList = new ArrayList<>();
+    private List<Pair<Float, Float>> mLowList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,6 +96,23 @@ public class DetailActivity extends AppCompatActivity implements LifecycleOwner 
                 loadData();
             }
         });
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mAdapter = new DailyAdapter(this, mList);
+        mAdapter.addOnHighLowDrawListener(new DailyAdapter.OnHighLowDrawListener() {
+            @Override
+            public void onDraw(int position, Pair<Float, Float> highPair, Pair<Float, Float> lowPair) {
+                Log.d("xxx   ", highPair.toString());
+                Log.d("ooo  ", lowPair.toString());
+                mHighList.add(highPair);
+                mLowList.add(lowPair);
+                if (mHighList.size() == mList.size() && mLowList.size() == mLowList.size()) {
+                    recyclerview.setPath(mHighList, mLowList);
+                }
+            }
+        });
+        recyclerview.setLayoutManager(layoutManager);
+        recyclerview.setAdapter(mAdapter);
 
         loadData();
     }
@@ -93,6 +121,34 @@ public class DetailActivity extends AppCompatActivity implements LifecycleOwner 
     private void loadData() {
         mUpdateCount = 0;
         swipeRefreshLayout.setRefreshing(true);
+        mViewModel.daily(mLocation.getId(), 0, 5).observe(this, new Observer<ApiResponse<BaseWrapperEntity<WeatherDailyEntity>>>() {
+            @Override
+            public void onChanged(@Nullable ApiResponse<BaseWrapperEntity<WeatherDailyEntity>> baseWrapperEntityApiResponse) {
+                ++mUpdateCount;
+                if (baseWrapperEntityApiResponse != null && baseWrapperEntityApiResponse.isSuccess()) {
+                    BaseWrapperEntity<WeatherDailyEntity> wrapperEntity = baseWrapperEntityApiResponse.body;
+                    if (wrapperEntity != null) {
+                        List<WeatherDailyEntity> results = wrapperEntity.getResults();
+                        if (results != null && results.size() > 0) {
+                            WeatherDailyEntity weatherDailyEntity = results.get(0);
+                            List<WeatherDailyEntity.DailyEntity> daily = weatherDailyEntity.getDaily();
+                            if (daily != null && daily.size() > 0) {
+                                updateDaily(daily);
+                            } else {
+                                ToastUtils.show(DetailActivity.this, R.string.get_daily_failed);
+                            }
+                        } else {
+                            ToastUtils.show(DetailActivity.this, R.string.get_daily_failed);
+                        }
+                    } else {
+                        ToastUtils.show(DetailActivity.this, R.string.get_daily_failed);
+                    }
+                } else {
+                    ToastUtils.show(DetailActivity.this, R.string.get_daily_failed);
+                }
+                stopRefreshing();
+            }
+        });
         mViewModel.life(mLocation.getId()).observe(this, new Observer<ApiResponse<BaseWrapperEntity<LifeSuggestEntity>>>() {
             @Override
             public void onChanged(@Nullable ApiResponse<BaseWrapperEntity<LifeSuggestEntity>> baseWrapperEntityApiResponse) {
@@ -116,13 +172,14 @@ public class DetailActivity extends AppCompatActivity implements LifecycleOwner 
                 stopRefreshing();
             }
         });
-        mViewModel.daily(mLocation.getId(), 0, 5).observe(this, new Observer<ApiResponse<BaseWrapperEntity<WeatherDailyEntity>>>() {
-            @Override
-            public void onChanged(@Nullable ApiResponse<BaseWrapperEntity<WeatherDailyEntity>> baseWrapperEntityApiResponse) {
-                ++mUpdateCount;
-                stopRefreshing();
-            }
-        });
+    }
+
+    private void updateDaily(List<WeatherDailyEntity.DailyEntity> daily) {
+        mHighList.clear();
+        mLowList.clear();
+        mList.clear();
+        mList.addAll(daily);
+        mAdapter.notifyDataSetChanged();
     }
 
     private void updateLife(LifeSuggestEntity lifeSuggestEntity) {

@@ -1,6 +1,7 @@
 package cn.allen.iweather.webservice;
 
 import android.arch.lifecycle.LiveData;
+import android.util.Log;
 
 import java.lang.reflect.Type;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -44,6 +45,7 @@ public class LiveDataCallAdapter<R> implements CallAdapter<R, LiveData<ApiRespon
 
                         @Override
                         public void onFailure(Call<R> call, Throwable throwable) {
+                            Log.e("Retrofit", "onFailure: " + throwable.toString());
                             postValue(new ApiResponse<R>(throwable));
                         }
                     });

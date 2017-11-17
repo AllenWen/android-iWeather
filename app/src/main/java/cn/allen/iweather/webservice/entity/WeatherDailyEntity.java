@@ -84,12 +84,12 @@ public class WeatherDailyEntity extends BaseEntity implements Parcelable {
         private int high; //当天最高温度
         @SerializedName("low")
         private int low; //当天最低温度
-        @SerializedName("precip")
-        private int precip; //降水概率，范围0~100，单位百分比
+//        @SerializedName("precip")
+//        private int precip; //降水概率，范围0~100，单位百分比
         @SerializedName("wind_direction")
         private String wind_direction; //风向文字
-        @SerializedName("wind_direction_degree")
-        private int wind_direction_degree; //风向角度，范围0~360
+//        @SerializedName("wind_direction_degree")
+//        private int wind_direction_degree; //风向角度，范围0~360
         @SerializedName("wind_speed")
         private int wind_speed; //风速，单位km/h（当unit=c时）、mph（当unit=f时）
         @SerializedName("wind_scale")
@@ -123,17 +123,17 @@ public class WeatherDailyEntity extends BaseEntity implements Parcelable {
             return low;
         }
 
-        public int getPrecip() {
-            return precip;
-        }
+//        public int getPrecip() {
+//            return precip;
+//        }
 
         public String getWind_direction() {
             return wind_direction;
         }
 
-        public int getWind_direction_degree() {
-            return wind_direction_degree;
-        }
+//        public int getWind_direction_degree() {
+//            return wind_direction_degree;
+//        }
 
         public int getWind_speed() {
             return wind_speed;
@@ -153,9 +153,9 @@ public class WeatherDailyEntity extends BaseEntity implements Parcelable {
                     ", code_night=" + code_night +
                     ", high=" + high +
                     ", low=" + low +
-                    ", precip=" + precip +
+//                    ", precip=" + precip +
                     ", wind_direction='" + wind_direction + '\'' +
-                    ", wind_direction_degree=" + wind_direction_degree +
+//                    ", wind_direction_degree=" + wind_direction_degree +
                     ", wind_speed=" + wind_speed +
                     ", wind_scale=" + wind_scale +
                     '}';
@@ -176,9 +176,9 @@ public class WeatherDailyEntity extends BaseEntity implements Parcelable {
             dest.writeInt(this.code_night);
             dest.writeInt(this.high);
             dest.writeInt(this.low);
-            dest.writeInt(this.precip);
+//            dest.writeInt(this.precip);
             dest.writeString(this.wind_direction);
-            dest.writeInt(this.wind_direction_degree);
+//            dest.writeInt(this.wind_direction_degree);
             dest.writeInt(this.wind_speed);
             dest.writeInt(this.wind_scale);
         }
@@ -194,9 +194,9 @@ public class WeatherDailyEntity extends BaseEntity implements Parcelable {
             this.code_night = in.readInt();
             this.high = in.readInt();
             this.low = in.readInt();
-            this.precip = in.readInt();
+//            this.precip = in.readInt();
             this.wind_direction = in.readString();
-            this.wind_direction_degree = in.readInt();
+//            this.wind_direction_degree = in.readInt();
             this.wind_speed = in.readInt();
             this.wind_scale = in.readInt();
         }

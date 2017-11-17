@@ -4,8 +4,10 @@
     <!-- main !-->
     <string name="home">首页</string>
     <string name="format_header">%s, 今天是%d年%d月%d日, %s</string>
-    <string name="forenoon">上午好</string>
+    <string name="morning">上午好</string>
+    <string name="noon">中午好</string>
     <string name="afternoon">下午好</string>
+    <string name="night">晚上好</string>
     <string name="monday">周一</string>
     <string name="tuesday">周二</string>
     <string name="wednesday">周三</string>
@@ -30,7 +32,7 @@
     <string name="search_city_failed">抱歉, 未查询到城市</string>
 
     <!-- detail !-->
-    <string name="detail_predict">详细预报</string>
+    <string name="detail_predict">天气详情</string>
     <string name="car_wash">洗车指数</string>
     <string name="dressing">穿衣建议</string>
     <string name="flu">感冒几率</string>
@@ -38,7 +40,10 @@
     <string name="travel">旅游指数</string>
     <string name="uv">紫外线强度</string>
     <string name="get_life_failed">抱歉, 没有查到生活指数</string>
+    <string name="get_daily_failed">抱歉, 没有查到逐日预报</string>
     <string name="format_desc">%s，%d℃</string>
+    <string name="today">今天</string>
+    <string name="format_wind_scale">%d级</string>
 
     <!-- adapter home !-->
     <string name="default_name">- -</string>

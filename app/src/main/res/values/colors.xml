@@ -6,10 +6,11 @@
     <color name="colorAccent">#8BC34A</color>
     <color name="colorSecondaryText">#757575</color>
     <color name="colorPrimaryText">#212121</color>
-    <color name="colorDivider">#BDBDBD</color>
 
+    <color name="color_pressed">#BDBDBD</color>
     <color name="color_white">#ffffff</color>
     <color name="color_black_transparent_50">#80000000</color>
     <color name="color_purple">#9c27b0</color>
     <color name="color_red">#e51c23</color>
+    <color name="color_divider">#f1f1f1</color>
 </resources>
