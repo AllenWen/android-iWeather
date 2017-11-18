@@ -102,8 +102,6 @@ public class DetailActivity extends AppCompatActivity implements LifecycleOwner 
         mAdapter.addOnHighLowDrawListener(new DailyAdapter.OnHighLowDrawListener() {
             @Override
             public void onDraw(int position, Pair<Float, Float> highPair, Pair<Float, Float> lowPair) {
-                Log.d("xxx   ", highPair.toString());
-                Log.d("ooo  ", lowPair.toString());
                 mHighList.add(highPair);
                 mLowList.add(lowPair);
                 if (mHighList.size() == mList.size() && mLowList.size() == mLowList.size()) {

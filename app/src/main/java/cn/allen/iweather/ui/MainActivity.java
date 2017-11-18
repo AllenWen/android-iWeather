@@ -97,6 +97,8 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mViewModel.deleteFavorite(nowEntity.getLocation().getId());
+                        mList.remove(nowEntity);
+                        mAdapter.notifyDataSetChanged();
                     }
                 });
                 builder.setNegativeButton(R.string.cancel, null);
