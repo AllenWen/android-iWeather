@@ -1,6 +1,8 @@
 # iWeather Android App
 ## Introducation 
-Just for fun! This is a weather android app, make you be aware of current and future weather.
+* Just for fun! <br>
+* This is a weather app, make you be aware of current and future weather.<br>
+* A clean and simple android app(mostly for personal use), follow the material design principles.
 ## Preview
 * Add city by searh and weather detail<br>
 ![](https://github.com/AllenWen/iWeather/blob/master/images/20171118_134919.gif)
